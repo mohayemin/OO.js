@@ -1,0 +1,25 @@
+{
+  "name": "oo-design-suggestion",
+  "version": "1.0.0",
+  "description": "��\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohayemin/oo-design-suggestion.js.git"
+  },
+  "keywords": [
+    "call-graph"
+  ],
+  "author": "mohayemin@ualberta.ca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mohayemin/oo-design-suggestion.js/issues"
+  },
+  "homepage": "https://github.com/mohayemin/oo-design-suggestion.js#readme",
+  "dependencies": {
+    "@persper/js-callgraph": "^1.3.2"
+  }
+}
