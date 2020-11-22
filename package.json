@@ -4,7 +4,7 @@
   "description": "��\r\u0000 \u0000",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine",
     "start": "ts-node src/index.ts"
   },
   "repository": {
@@ -27,6 +27,8 @@
     "tmp": "^0.2.1"
   },
   "devDependencies": {
-    "@types/tmp": "^0.2.0"
+    "@types/jasmine": "^3.6.2",
+    "@types/tmp": "^0.2.0",
+    "jasmine": "^3.6.3"
   }
 }
