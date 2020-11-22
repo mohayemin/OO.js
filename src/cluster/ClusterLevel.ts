@@ -1,10 +1,11 @@
-import { without } from "lodash";
+import { union, without } from "lodash";
 import { ClusterElement } from "./ClusterElement";
 
 
 export class ClusterLevel {
     constructor(
-        public readonly elements: ClusterElement[]) {
+        public readonly elements: ClusterElement[]
+        , public readonly mergedElement: ClusterElement) {
     }
 
     hasNext(): boolean {
@@ -12,25 +13,49 @@ export class ClusterLevel {
     }
 
     next(): ClusterLevel {
-        let maxCloseness = 0;
-        let closestPair: ClusterElement[] = [];
-        for (let i = 0; i < this.elements.length; i++) {
+        let { firstIndex, secondIndex } = this.findClosestPair();
+        const first = this.elements[firstIndex];
+        const second = this.elements[secondIndex];
+
+        const mergedId = first.id + "$" + second.id;
+        const mergedNeighbourIds = union(first.getNeighbourhood(), second.getNeighbourhood());
+
+        let newElements = this.elements.slice();
+        newElements[firstIndex] = new ClusterElement(mergedId, mergedNeighbourIds);
+        newElements.splice(secondIndex, 1);
+        newElements = newElements.map(e => this.copyElementForMerge(e, mergedId, first.id, second.id));
+
+        return new ClusterLevel(newElements, newElements[firstIndex]);
+    }
+
+    copyElementForMerge(element: ClusterElement, newId: string, firstOldId: string, secondOldId: string) {
+        const neighbourIds = without(element.getNeighbourhood(), firstOldId, secondOldId, newId);
+        if (neighbourIds.length < element.getNeighbourhood().length) {
+            neighbourIds.push(newId);
+        }
+        return new ClusterElement(element.id, neighbourIds);
+    }
+
+    private findClosestPair() {
+        let maxCloseness = -1;
+        let firstIndex: number, secondIndex: number;
+        for (let i = 0; i < this.elements.length - 1; i++) {
             const ei = this.elements[i];
             for (let j = i + 1; j < this.elements.length; j++) {
                 const ej = this.elements[j];
 
                 const closeness = ClusterElement.closeness(ei, ej);
+                console.log(ei.id, ej.id, closeness);
                 if (closeness > maxCloseness) {
                     maxCloseness = closeness;
-                    closestPair = [ei, ej];
+                    firstIndex = i;
+                    secondIndex = j;
                 }
             }
         }
 
-        const mergedElement = ClusterElement.merge(closestPair[0], closestPair[1]);
-        const newElements = without(this.elements, ...closestPair);
-        newElements.push(mergedElement);
+        console.log('-------------------------');
 
-        return new ClusterLevel(newElements);
+        return { firstIndex, secondIndex };
     }
 }

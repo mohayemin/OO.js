@@ -4,7 +4,7 @@
   "description": "��\r\u0000 \u0000",
   "main": "src/index.js",
   "scripts": {
-    "test": "jasmine",
+    "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json",
     "start": "ts-node src/index.ts"
   },
   "repository": {
@@ -29,6 +29,9 @@
   "devDependencies": {
     "@types/jasmine": "^3.6.2",
     "@types/tmp": "^0.2.0",
-    "jasmine": "^3.6.3"
+    "jasmine": "^3.6.3",
+    "jasmine-ts": "^0.3.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.2"
   }
 }

@@ -16,7 +16,7 @@ export class Graph {
         const source = this.getOrCreateNode(edgeInfo.source);
         const target = this.getOrCreateNode(edgeInfo.target);
 
-        source.outNeighbours.push(target);
+        source.adOutNeighbour(target);
     }
 
     private getOrCreateNode(nodeInfo: NodeInfo): Node {

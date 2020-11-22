@@ -1,30 +1,22 @@
-import { flatMap, intersection, unionBy } from "lodash";
-import { Node } from "../cg/Node";
+import { intersection, uniq } from "lodash";
 
 export class ClusterElement {
+    private readonly neighbourhood: string[];
     constructor(
-        public readonly nodes: Node[]) {
+        public readonly id: string,
+        neighbourIds: string[]
+    ) {
+        this.neighbourhood = uniq([id, ...neighbourIds]);
     }
 
-    private _outNeighbourhood: string[];
-    outNeighbourhood() {
-        if (!this._outNeighbourhood) {
-            const neighbourIds = flatMap(this.nodes, n => n.outNeighbourhood());
-            this._outNeighbourhood = [...new Set<string>(neighbourIds)];
-        }
-
-        return this._outNeighbourhood;
+    getNeighbourhood() {
+        return this.neighbourhood;
     }
 
     static closeness(element1: ClusterElement, element2: ClusterElement): number {
-        const inter = intersection(element1.outNeighbourhood(), element2.outNeighbourhood());
-        const union = new Set([...element1.outNeighbourhood(), ...element2.outNeighbourhood()]);
+        const inter = intersection(element1.getNeighbourhood(), element2.getNeighbourhood());
+        const union = new Set([...element1.getNeighbourhood(), ...element2.getNeighbourhood()]);
         return inter.length / union.size;
-    }
-
-    static merge(element1: ClusterElement, element2: ClusterElement) {
-        const nodes = unionBy(element1.nodes, element2.nodes, n => n.id);
-        return new ClusterElement(nodes);
     }
 }
 
