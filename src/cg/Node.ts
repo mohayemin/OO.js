@@ -12,7 +12,7 @@ export class Node {
     outNeighbourhood() {
         if (!this._outNeighbourhood) {
             const neighbourIds = this.outNeighbours.map(n => n.id);
-            this._outNeighbourhood = [...new Set([this.id, ...neighbourIds])];
+            this._outNeighbourhood = Array.from(new Set([this.id, ...neighbourIds]));
         }
 
         return this._outNeighbourhood;
