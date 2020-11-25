@@ -1,4 +1,3 @@
-import { union, without } from "lodash";
 import { Cluster } from "./Cluster";
 
 
@@ -17,23 +16,13 @@ export class ClusterLevel {
         const first = this.clusters[firstIndex];
         const second = this.clusters[secondIndex];
 
-        const mergedId = first.id + "$" + second.id;
-        const mergedNeighbourIds = union(first.getNeighbourhood(), second.getNeighbourhood());
-
         let newClusters = this.clusters.slice();
-        newClusters[firstIndex] = new Cluster(mergedId, mergedNeighbourIds);
+        const mergedCluster = first.mergeWith(second);
+        newClusters[firstIndex] = mergedCluster;
         newClusters.splice(secondIndex, 1);
-        newClusters = newClusters.map(e => this.copyClusterForMerge(e, mergedId, first.id, second.id));
+        newClusters = newClusters.map(e => e.updateNeighbours(mergedCluster.id, first.id, second.id));
 
         return new ClusterLevel(newClusters, newClusters[firstIndex]);
-    }
-
-    copyClusterForMerge(cluster: Cluster, newId: string, firstOldId: string, secondOldId: string) {
-        const neighbourIds = without(cluster.getNeighbourhood(), firstOldId, secondOldId, newId);
-        if (neighbourIds.length < cluster.getNeighbourhood().length) {
-            neighbourIds.push(newId);
-        }
-        return new Cluster(cluster.id, neighbourIds);
     }
 
     private findClosestPair() {
