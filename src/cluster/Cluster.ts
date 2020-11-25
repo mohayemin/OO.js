@@ -9,25 +9,21 @@ export class Cluster {
         this.neighbourhood = uniq([id, ...neighbourIds]);
     }
 
-    getNeighbourhood() {
-        return this.neighbourhood;
-    }
-
     closeness(other: Cluster): number {
-        const inter = intersection(this.getNeighbourhood(), other.getNeighbourhood());
-        const union = new Set([...this.getNeighbourhood(), ...other.getNeighbourhood()]);
+        const inter = intersection(this.neighbourhood, other.neighbourhood);
+        const union = new Set([...this.neighbourhood, ...other.neighbourhood]);
         return inter.length / union.size;
     }
 
     mergeWith(second: Cluster): Cluster {
         const mergedId = this.id + "$" + second.id;
-        const mergedNeighbourIds = union(this.getNeighbourhood(), second.getNeighbourhood());
+        const mergedNeighbourIds = union(this.neighbourhood, second.neighbourhood);
         return new Cluster(mergedId, mergedNeighbourIds);
     }
 
     updateNeighbours(mergedId: string, firstOldId: string, secondOldId: string) {
-        const neighbourIds = without(this.getNeighbourhood(), firstOldId, secondOldId, mergedId);
-        if (neighbourIds.length < this.getNeighbourhood().length) {
+        const neighbourIds = without(this.neighbourhood, firstOldId, secondOldId, mergedId);
+        if (neighbourIds.length < this.neighbourhood.length) {
             neighbourIds.push(mergedId);
         }
         return new Cluster(this.id, neighbourIds);

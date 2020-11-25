@@ -1,6 +1,5 @@
 import { Cluster } from "./Cluster";
 
-
 export class ClusterLevel {
     constructor(
         public readonly clusters: Cluster[]
