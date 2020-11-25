@@ -13,9 +13,9 @@ export class Cluster {
         return this.neighbourhood;
     }
 
-    static closeness(cluster1: Cluster, cluster2: Cluster): number {
-        const inter = intersection(cluster1.getNeighbourhood(), cluster2.getNeighbourhood());
-        const union = new Set([...cluster1.getNeighbourhood(), ...cluster2.getNeighbourhood()]);
+    closeness(other: Cluster): number {
+        const inter = intersection(this.getNeighbourhood(), other.getNeighbourhood());
+        const union = new Set([...this.getNeighbourhood(), ...other.getNeighbourhood()]);
         return inter.length / union.size;
     }
 }

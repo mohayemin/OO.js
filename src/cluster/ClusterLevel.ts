@@ -44,7 +44,7 @@ export class ClusterLevel {
             for (let j = i + 1; j < this.clusters.length; j++) {
                 const ej = this.clusters[j];
 
-                const closeness = Cluster.closeness(ei, ej);
+                const closeness = ei.closeness(ej);
                 console.log(ei.id, ej.id, closeness);
                 if (closeness > maxCloseness) {
                     maxCloseness = closeness;

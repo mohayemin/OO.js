@@ -5,7 +5,7 @@ describe('x', () => {
         const one = new Cluster("B", ["B", "E", "F", "G"]);
         const two = new Cluster("E", ["F", "G"]);
 
-        const closeness = Cluster.closeness(one, two);
+        const closeness = one.closeness(two);
         expect(closeness).toEqual(.75);
     });
 });
