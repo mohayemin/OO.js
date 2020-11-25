@@ -14,16 +14,16 @@ describe("cluster level", () => {
 
     it('should correctly find next level', () => {
         level = level.next();
-        expect(level.mergedElement.id).toEqual('B$E');
+        expect(level.mergedCluster.id).toEqual('B$E');
         level = level.next();
-        expect(level.mergedElement.id).toEqual('A$D');
+        expect(level.mergedCluster.id).toEqual('A$D');
         level = level.next();
-        expect(level.mergedElement.id).toEqual('A$D$G');
+        expect(level.mergedCluster.id).toEqual('A$D$G');
         level = level.next();
-        expect(level.mergedElement.id).toEqual('B$E$F');
+        expect(level.mergedCluster.id).toEqual('B$E$F');
         level = level.next();
-        expect(level.mergedElement.id).toEqual('A$D$G$C');
+        expect(level.mergedCluster.id).toEqual('A$D$G$C');
         level = level.next();
-        expect(level.mergedElement.id).toEqual('A$D$G$C$B$E$F');
+        expect(level.mergedCluster.id).toEqual('A$D$G$C$B$E$F');
     });
 });

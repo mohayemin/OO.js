@@ -4,45 +4,45 @@ import { Cluster } from "./Cluster";
 
 export class ClusterLevel {
     constructor(
-        public readonly elements: Cluster[]
-        , public readonly mergedElement: Cluster) {
+        public readonly clusters: Cluster[]
+        , public readonly mergedCluster: Cluster) {
     }
 
     hasNext(): boolean {
-        return this.elements.length > 1;
+        return this.clusters.length > 1;
     }
 
     next(): ClusterLevel {
         let { firstIndex, secondIndex } = this.findClosestPair();
-        const first = this.elements[firstIndex];
-        const second = this.elements[secondIndex];
+        const first = this.clusters[firstIndex];
+        const second = this.clusters[secondIndex];
 
         const mergedId = first.id + "$" + second.id;
         const mergedNeighbourIds = union(first.getNeighbourhood(), second.getNeighbourhood());
 
-        let newElements = this.elements.slice();
-        newElements[firstIndex] = new Cluster(mergedId, mergedNeighbourIds);
-        newElements.splice(secondIndex, 1);
-        newElements = newElements.map(e => this.copyElementForMerge(e, mergedId, first.id, second.id));
+        let newClusters = this.clusters.slice();
+        newClusters[firstIndex] = new Cluster(mergedId, mergedNeighbourIds);
+        newClusters.splice(secondIndex, 1);
+        newClusters = newClusters.map(e => this.copyClusterForMerge(e, mergedId, first.id, second.id));
 
-        return new ClusterLevel(newElements, newElements[firstIndex]);
+        return new ClusterLevel(newClusters, newClusters[firstIndex]);
     }
 
-    copyElementForMerge(element: Cluster, newId: string, firstOldId: string, secondOldId: string) {
-        const neighbourIds = without(element.getNeighbourhood(), firstOldId, secondOldId, newId);
-        if (neighbourIds.length < element.getNeighbourhood().length) {
+    copyClusterForMerge(cluster: Cluster, newId: string, firstOldId: string, secondOldId: string) {
+        const neighbourIds = without(cluster.getNeighbourhood(), firstOldId, secondOldId, newId);
+        if (neighbourIds.length < cluster.getNeighbourhood().length) {
             neighbourIds.push(newId);
         }
-        return new Cluster(element.id, neighbourIds);
+        return new Cluster(cluster.id, neighbourIds);
     }
 
     private findClosestPair() {
         let maxCloseness = -1;
         let firstIndex: number, secondIndex: number;
-        for (let i = 0; i < this.elements.length - 1; i++) {
-            const ei = this.elements[i];
-            for (let j = i + 1; j < this.elements.length; j++) {
-                const ej = this.elements[j];
+        for (let i = 0; i < this.clusters.length - 1; i++) {
+            const ei = this.clusters[i];
+            for (let j = i + 1; j < this.clusters.length; j++) {
+                const ej = this.clusters[j];
 
                 const closeness = Cluster.closeness(ei, ej);
                 console.log(ei.id, ej.id, closeness);
