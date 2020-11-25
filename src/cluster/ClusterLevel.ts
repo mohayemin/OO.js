@@ -1,11 +1,11 @@
 import { union, without } from "lodash";
-import { ClusterElement } from "./ClusterElement";
+import { Cluster } from "./Cluster";
 
 
 export class ClusterLevel {
     constructor(
-        public readonly elements: ClusterElement[]
-        , public readonly mergedElement: ClusterElement) {
+        public readonly elements: Cluster[]
+        , public readonly mergedElement: Cluster) {
     }
 
     hasNext(): boolean {
@@ -21,19 +21,19 @@ export class ClusterLevel {
         const mergedNeighbourIds = union(first.getNeighbourhood(), second.getNeighbourhood());
 
         let newElements = this.elements.slice();
-        newElements[firstIndex] = new ClusterElement(mergedId, mergedNeighbourIds);
+        newElements[firstIndex] = new Cluster(mergedId, mergedNeighbourIds);
         newElements.splice(secondIndex, 1);
         newElements = newElements.map(e => this.copyElementForMerge(e, mergedId, first.id, second.id));
 
         return new ClusterLevel(newElements, newElements[firstIndex]);
     }
 
-    copyElementForMerge(element: ClusterElement, newId: string, firstOldId: string, secondOldId: string) {
+    copyElementForMerge(element: Cluster, newId: string, firstOldId: string, secondOldId: string) {
         const neighbourIds = without(element.getNeighbourhood(), firstOldId, secondOldId, newId);
         if (neighbourIds.length < element.getNeighbourhood().length) {
             neighbourIds.push(newId);
         }
-        return new ClusterElement(element.id, neighbourIds);
+        return new Cluster(element.id, neighbourIds);
     }
 
     private findClosestPair() {
@@ -44,7 +44,7 @@ export class ClusterLevel {
             for (let j = i + 1; j < this.elements.length; j++) {
                 const ej = this.elements[j];
 
-                const closeness = ClusterElement.closeness(ei, ej);
+                const closeness = Cluster.closeness(ei, ej);
                 console.log(ei.id, ej.id, closeness);
                 if (closeness > maxCloseness) {
                     maxCloseness = closeness;

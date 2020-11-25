@@ -1,14 +1,14 @@
-import { ClusterElement } from "./ClusterElement";
+import { Cluster } from "./Cluster";
 import { ClusterLevel } from "./ClusterLevel";
 
 describe("cluster level", () => {
-    let A = new ClusterElement("A", ["C"]),
-        B = new ClusterElement("B", ["E", "F", "G"]),
-        C = new ClusterElement("C", []),
-        D = new ClusterElement("D", ["A", "C"]),
-        E = new ClusterElement("E", ["F", "G"]),
-        F = new ClusterElement("F", ["G"]),
-        G = new ClusterElement("G", ["C", "D"]);
+    let A = new Cluster("A", ["C"]),
+        B = new Cluster("B", ["E", "F", "G"]),
+        C = new Cluster("C", []),
+        D = new Cluster("D", ["A", "C"]),
+        E = new Cluster("E", ["F", "G"]),
+        F = new Cluster("F", ["G"]),
+        G = new Cluster("G", ["C", "D"]);
 
     let level = new ClusterLevel([A, B, C, D, E, F, G], null);
 

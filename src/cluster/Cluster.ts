@@ -1,6 +1,6 @@
 import { intersection, uniq } from "lodash";
 
-export class ClusterElement {
+export class Cluster {
     private readonly neighbourhood: string[];
     constructor(
         public readonly id: string,
@@ -13,7 +13,7 @@ export class ClusterElement {
         return this.neighbourhood;
     }
 
-    static closeness(element1: ClusterElement, element2: ClusterElement): number {
+    static closeness(element1: Cluster, element2: Cluster): number {
         const inter = intersection(element1.getNeighbourhood(), element2.getNeighbourhood());
         const union = new Set([...element1.getNeighbourhood(), ...element2.getNeighbourhood()]);
         return inter.length / union.size;
