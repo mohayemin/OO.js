@@ -1,16 +1,18 @@
 import { Cluster } from "./Cluster";
+import { FlatCluster } from "./FlatCluster";
 import { ClusterLevel } from "./ClusterLevel";
+import { FlatClusterFactory } from "./FlatClusterFactory";
 
 describe("cluster level", () => {
-    let A = new Cluster("A", ["C"]),
-        B = new Cluster("B", ["E", "F", "G"]),
-        C = new Cluster("C", []),
-        D = new Cluster("D", ["A", "C"]),
-        E = new Cluster("E", ["F", "G"]),
-        F = new Cluster("F", ["G"]),
-        G = new Cluster("G", ["C", "D"]);
+    let A = new FlatCluster("A", ["C"]),
+        B = new FlatCluster("B", ["E", "F", "G"]),
+        C = new FlatCluster("C", []),
+        D = new FlatCluster("D", ["A", "C"]),
+        E = new FlatCluster("E", ["F", "G"]),
+        F = new FlatCluster("F", ["G"]),
+        G = new FlatCluster("G", ["C", "D"]);
 
-    let level = new ClusterLevel([A, B, C, D, E, F, G], null);
+    let level = new ClusterLevel([A, B, C, D, E, F, G], null, new FlatClusterFactory());
 
     it('should correctly find next level', () => {
         level = level.next();

@@ -1,27 +1,29 @@
 import { Cluster } from "./Cluster";
+import { ClusterFactory } from "./ClusterFactory";
 
-export class ClusterLevel {
+export class ClusterLevel<TCluster extends Cluster> {
     constructor(
-        public readonly clusters: Cluster[]
-        , public readonly mergedCluster: Cluster) {
+        public readonly clusters: TCluster[]
+        , public readonly mergedCluster: TCluster
+        , private clusterFactory: ClusterFactory<TCluster>) {
     }
 
     hasNext(): boolean {
         return this.clusters.length > 1;
     }
 
-    next(): ClusterLevel {
+    next(): ClusterLevel<TCluster> {
         let { firstIndex, secondIndex } = this.findClosestPair();
         const first = this.clusters[firstIndex];
         const second = this.clusters[secondIndex];
 
         let newClusters = this.clusters.slice();
-        const mergedCluster = first.mergeWith(second);
+        const mergedCluster = this.clusterFactory.merge(first, second);
         newClusters[firstIndex] = mergedCluster;
         newClusters.splice(secondIndex, 1);
-        newClusters = newClusters.map(e => e.updateNeighbours(mergedCluster.id, first.id, second.id));
+        newClusters = newClusters.map(c => this.clusterFactory.updateNeighbours(c, mergedCluster.id, first.id, second.id));
 
-        return new ClusterLevel(newClusters, newClusters[firstIndex]);
+        return new ClusterLevel(newClusters, newClusters[firstIndex], this.clusterFactory);
     }
 
     private findClosestPair() {
