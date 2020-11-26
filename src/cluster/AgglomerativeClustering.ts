@@ -1,30 +1,25 @@
+import { first } from "lodash";
 import { Graph } from "../cg/Graph";
+import { GraphNode } from "../cg/GraphNode";
 import { Cluster } from "./Cluster";
+import { ClusterLevel } from "./ClusterLevel";
 
 export class AgglomerativeClustering {
-    public findClosestPair(clusters: Cluster[]): ClosestPairResult {
-        let closestPair: ClosestPairResult = {
-            first: null,
-            second: null,
-            closeness: -1
-        };
-        for (let i = 0; i < clusters.length - 1; i++) {
-            const first = clusters[i];
-            for (let j = i + 1; j < clusters.length; j++) {
-                const second = clusters[j];
-                const closeness = first.closeness(second);
-                if (closeness > closestPair.closeness) {
-                    closestPair = { first, second, closeness };
-                }
-            }
+    constructor(private graph: Graph, private nodeToCluster: (node: GraphNode) => Cluster) {
+    }
+
+    apply(): ClusteringResult {
+        let level = new ClusterLevel(this.graph.nodes.map(this.nodeToCluster));
+        while(level.hasMultipleClusters()) {
+            level = level.clone();
+            const {first, second} = level.findClosestPair();
+            level.merge(first, second);
         }
 
-        return closestPair;
+        return null;
     }
 }
 
-export interface ClosestPairResult {
-    first: Cluster;
-    second: Cluster;
-    closeness: number;
+export interface ClusteringResult {
+
 }

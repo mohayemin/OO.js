@@ -1,11 +1,11 @@
 import { Dictionary } from "lodash";
 import { EdgeInfo, NodeInfo } from "./cgTypes";
-import { Node } from "./Node";
+import { GraphNode } from "./GraphNode";
 
 export class Graph {
-    readonly nodes: Node[];
+    readonly nodes: GraphNode[];
 
-    private nodeMap: Dictionary<Node>;
+    private nodeMap: Dictionary<GraphNode>;
 
     constructor() {
         this.nodes = [];
@@ -19,12 +19,12 @@ export class Graph {
         source.adOutNeighbour(target);
     }
 
-    private getOrCreateNode(nodeInfo: NodeInfo): Node {
+    private getOrCreateNode(nodeInfo: NodeInfo): GraphNode {
         const id = `${nodeInfo.file}@${nodeInfo.label}@${nodeInfo.start.row}:${nodeInfo.start.column}`
 
         let node = this.nodeMap[id];
         if(!node){
-            node = new Node(id, nodeInfo);
+            node = new GraphNode(id, nodeInfo);
             this.nodes.push(node);
             this.nodeMap[id] = node;
         }
