@@ -1,11 +1,11 @@
-import { first, max, maxBy, pull } from "lodash";
-import { Cluster } from "./Cluster";
-import { ClusterPair } from "./ClusterPair";
+import { first, max, maxBy, pull } from "lodash"
+import { Cluster } from "./Cluster"
+import { ClusterPair } from "./ClusterPair"
 export class ClusterLevel {
-    clusterPairs: ClusterPair[];
+    clusterPairs: ClusterPair[]
     constructor(
         public readonly clusters: Cluster[]) {
-        this.recalculatePairs();
+        this.recalculatePairs()
     }
 
     private recalculatePairs() {
@@ -15,27 +15,27 @@ export class ClusterLevel {
     }
 
     hasMultipleClusters() {
-        return this.clusters.length > 1;
+        return this.clusters.length > 1
     }
 
     merge(first: Cluster, second: Cluster) {
-        first.mergeWith(second);
-        pull(this.clusters, second);
-        this.recalculatePairs();
-        return first;
+        first.mergeWith(second)
+        pull(this.clusters, second)
+        this.recalculatePairs()
+        return first
     }
 
     public findClosestPair(): ClusterPair {
-        return maxBy(this.clusterPairs, p => p.closeness);
+        return maxBy(this.clusterPairs, p => p.closeness)
     }
 
     clone() {
-        const clusters = this.clusters.map(c => c.clone());
+        const clusters = this.clusters.map(c => c.clone())
         return new ClusterLevel(clusters)
     }
 
     score() {
-        return 0;
+        return 0
     }
 }
 
@@ -45,7 +45,7 @@ class PrintableClusterPair implements ClusterPair {
         public first: Cluster,
         public second: Cluster
     ) {
-        this.closeness = first.closeness(second);
+        this.closeness = first.closeness(second)
     }
 
     toString() {

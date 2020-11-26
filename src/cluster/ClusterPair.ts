@@ -1,8 +1,7 @@
-import { Cluster } from "./Cluster";
-
+import { Cluster } from "./Cluster"
 
 export interface ClusterPair {
-    first: Cluster;
-    second: Cluster;
-    closeness: number;
+    first: Cluster
+    second: Cluster
+    closeness: number
 }
