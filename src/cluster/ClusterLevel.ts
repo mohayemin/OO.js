@@ -35,7 +35,7 @@ export class ClusterLevel {
     }
 
     score() {
-
+        return 0;
     }
 }
 

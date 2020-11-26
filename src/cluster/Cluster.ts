@@ -1,4 +1,4 @@
-import { clone, flatMap, intersection, union, uniq, without } from "lodash";
+import { clone, flatMap, forEach, intersection, union, uniq, without } from "lodash";
 import { GraphNode } from "../cg/GraphNode";
 
 export class Cluster {
@@ -18,16 +18,6 @@ export class Cluster {
         this.entitySet = this.components.flatMap(n => Array.from(n.entitySet));
     }
 
-    score(): number {
-        const outClusterEdges = without(this.entitySet, ...this.components).length;
-        const inClusterEdges = this.entitySet.length - outClusterEdges
-
-        const diff = inClusterEdges - outClusterEdges;
-        const score = diff / this.entitySet.length;
-
-        return score;
-    }
-
     clone() {
         return new Cluster(this.id, clone(this.components));
     }
@@ -41,5 +31,13 @@ export class Cluster {
 
     toString() {
         return this.id;
+    }
+
+    inClusterEdges(): number {
+        return this.entitySet.filter(e => this.components.includes(e)).length
+    }
+
+    outClusterEdges(): number {
+        return this.entitySet.filter(e => this.components.includes(e)).length
     }
 }
