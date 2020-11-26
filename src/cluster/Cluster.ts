@@ -1,9 +1,7 @@
 import { intersection } from "lodash";
 
 export abstract class Cluster {
-    constructor(
-        public readonly id: string,
-    ) {
+    constructor(public id: string) {
     }
 
     closeness(other: Cluster): number {
@@ -13,4 +11,6 @@ export abstract class Cluster {
     }
 
     abstract getNeighbourhood(): string[];
+    abstract mergeWith(other: Cluster): void;
+    abstract updateNeighbours(mergedId: string, firstOldId: string, secondOldId: string): void;
 }
