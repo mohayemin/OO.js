@@ -2,27 +2,28 @@ import { clone, flatMap, intersection, union, uniq, without } from "lodash";
 import { GraphNode } from "../cg/GraphNode";
 
 export class Cluster {
-    neighbours: GraphNode[];
+    entitySet: GraphNode[];
     constructor(public id: string,
         public components: GraphNode[]) {
-            this.buildCache();
+        this.buildCache()
     }
 
     mergeWith(other: Cluster): void {
         this.id += "$" + other.id;
         this.components.push(...other.components);
+        this.buildCache();
     }
 
     private buildCache() {
-        this.neighbours = [].concat(...this.components.map(n => n.getOutNeighbours()));
+        this.entitySet = this.components.flatMap(n => Array.from(n.entitySet));
     }
 
     score(): number {
-        const outClusterEdges = without(this.neighbours, ...this.components).length;
-        const inClusterEdges = this.neighbours.length - outClusterEdges
-        
+        const outClusterEdges = without(this.entitySet, ...this.components).length;
+        const inClusterEdges = this.entitySet.length - outClusterEdges
+
         const diff = inClusterEdges - outClusterEdges;
-        const score = diff / this.neighbours.length;
+        const score = diff / this.entitySet.length;
 
         return score;
     }
@@ -33,8 +34,12 @@ export class Cluster {
 
     // TODO: cache closeness for performance
     closeness(other: Cluster): number {
-        const inter = intersection(this.neighbours, other.neighbours);
-        const all = union(this.neighbours, other.neighbours);
+        const inter = intersection(this.entitySet, other.entitySet);
+        const all = union(this.entitySet, other.entitySet);
         return inter.length / all.length;
+    }
+
+    toString() {
+        return this.id;
     }
 }

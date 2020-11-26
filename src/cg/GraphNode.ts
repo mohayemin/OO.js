@@ -1,19 +1,18 @@
 import { NodeInfo } from "./cgTypes";
 
 export class GraphNode {
-    private readonly outNeighbours: GraphNode[];
+    public readonly entitySet: Set<GraphNode>
     constructor(
         public readonly id: string,
         public readonly info: NodeInfo = null) {
-        this.outNeighbours = [this];
+        this.entitySet = new Set([this]);
     }
 
-    adOutNeighbour(...newOutNeighbours: GraphNode[]) {
-        this.outNeighbours.push(...newOutNeighbours);
-        return this;
-    }
-
-    getOutNeighbours() {
-        return this.outNeighbours;
+    addNeighbour(...newOutNeighbours: GraphNode[]) {
+        newOutNeighbours.forEach(n => {
+            this.entitySet.add(n)
+            n.entitySet.add(this)
+        })
+        return this
     }
 }
