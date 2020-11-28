@@ -1,8 +1,8 @@
 import { FunctionNode } from "../cg/GraphNode"
-import { Cluster } from "./Cluster"
-import { ClusterGroup } from "./ClusterGroup"
+import { OOClass } from "./OOClass"
+import { OOClassDesign } from "./OOClassDesign"
 
-describe("cluster set", () => {
+describe("design", () => {
     let A = new FunctionNode("A"),
         B = new FunctionNode("B"),
         C = new FunctionNode("C"),
@@ -19,46 +19,46 @@ describe("cluster set", () => {
     F.addCallees(G)
     G.addCallees(C, D)
 
-    let clusters = [A, B, C, D, E, F, G]
-    const level = new ClusterGroup(clusters.map(n => new Cluster(n.id, [n])))
+    let functions = [A, B, C, D, E, F, G]
+    const design = new OOClassDesign(functions.map(n => new OOClass(n.id, [n])))
 
 
-    function printClusters() {
-        console.log(level.clusterPairs.map(p => p + ''))
+    function printDesign() {
+        console.log(design.classPairs.map(p => p + ''))
     }
 
     it('should correctly find the closest pair', () => {
-        let closest = level.findClosestPair()
+        let closest = design.findClosestPair()
         expect(closest.first.id).toBe("B")
         expect(closest.second.id).toBe("E")
         expect(closest.closeness).toBeCloseTo(1)
 
-        level.merge(closest.firstIndex, closest.secondIndex)
-        closest = level.findClosestPair()
+        design.merge(closest.firstIndex, closest.secondIndex)
+        closest = design.findClosestPair()
         expect(closest.first.id).toBe("B$E")
         expect(closest.second.id).toBe("F")
         expect(closest.closeness).toBeCloseTo(1)
 
-        level.merge(closest.firstIndex, closest.secondIndex)
-        closest = level.findClosestPair()
+        design.merge(closest.firstIndex, closest.secondIndex)
+        closest = design.findClosestPair()
         expect(closest.first.id).toBe("C")
         expect(closest.second.id).toBe("D")
         expect(closest.closeness).toBeCloseTo(1)
 
-        level.merge(closest.firstIndex, closest.secondIndex)
-        closest = level.findClosestPair()
+        design.merge(closest.firstIndex, closest.secondIndex)
+        closest = design.findClosestPair()
         expect(closest.first.id).toBe("A")
         expect(closest.second.id).toBe("C$D")
         expect(closest.closeness).toBeCloseTo(3/4)
 
-        level.merge(closest.firstIndex, closest.secondIndex)
-        closest = level.findClosestPair()
+        design.merge(closest.firstIndex, closest.secondIndex)
+        closest = design.findClosestPair()
         expect(closest.first.id).toBe("B$E$F")
         expect(closest.second.id).toBe("G")
         expect(closest.closeness).toBeCloseTo(4/6)
 
-        level.merge(closest.firstIndex, closest.secondIndex)
-        closest = level.findClosestPair()
+        design.merge(closest.firstIndex, closest.secondIndex)
+        closest = design.findClosestPair()
         expect(closest.first.id).toBe("A$C$D")
         expect(closest.second.id).toBe("B$E$F$G")
         expect(closest.closeness).toBeCloseTo(3/7)

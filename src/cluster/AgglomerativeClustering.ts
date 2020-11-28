@@ -1,45 +1,45 @@
 import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
-import { Cluster } from "./Cluster"
-import { ClusterGroup as ClusterGroup } from "./ClusterGroup"
-import { ClusterPair } from "./ClusterPair"
-import { ClusterScore, ClusterScorer } from "./scoring/ClusterScorer"
+import { OOClass } from "./OOClass"
+import { OOClassDesign as OOClassDesign } from "./OOClassDesign"
+import { OOClassPair } from "./OOClassPair"
+import { OODesignScore, OODesignScorer } from "./scoring/OODesignScorer"
 
 export class AgglomerativeClustering {
     constructor(private graph: CallGraph
-        , private nodeToCluster: (node: FunctionNode) => Cluster
-        , private scorer: ClusterScorer
+        , private functionToClass: (node: FunctionNode) => OOClass
+        , private scorer: OODesignScorer
     ) {
     }
 
-    apply(): ClusteringResult {
-        const resultItems: Array<ClusteringResultItem> = [];
-        let clusterGroup = new ClusterGroup(this.graph.nodes.map(this.nodeToCluster))
-        while (clusterGroup.hasMultipleClusters()) {
-            const resultItem = this.findResultForGroup(clusterGroup)
+    apply(): OODesignResult {
+        const resultItems: Array<OODesignResultItem> = [];
+        let design = new OOClassDesign(this.graph.nodes.map(this.functionToClass))
+        while (design.hasMultipleClasses()) {
+            const resultItem = this.findResultForGroup(design)
             resultItems.push(resultItem);
-            clusterGroup = clusterGroup.clone();
-            clusterGroup.merge(resultItem.closestPair.firstIndex, resultItem.closestPair.secondIndex)
+            design = design.clone();
+            design.merge(resultItem.closestPair.firstIndex, resultItem.closestPair.secondIndex)
         }
-        resultItems.push(this.findResultForGroup(clusterGroup))
+        resultItems.push(this.findResultForGroup(design))
 
         const topScorer = maxBy(resultItems, l => l.score.score)
 
-        return new ClusteringResult(resultItems, topScorer)
+        return new OODesignResult(resultItems, topScorer)
     }
 
-    private findResultForGroup(group: ClusterGroup): ClusteringResultItem {
-        const score = this.scorer.score(group.clusters)
+    private findResultForGroup(group: OOClassDesign): OODesignResultItem {
+        const score = this.scorer.score(group.classes)
         const closestPair = group.findClosestPair()
-        return new ClusteringResultItem(group, closestPair, score)
+        return new OODesignResultItem(group, closestPair, score)
     }
 }
 
-export class ClusteringResult {
+export class OODesignResult {
     constructor(
-        public resultItems: ClusteringResultItem[],
-        public topScorer: ClusteringResultItem
+        public resultItems: OODesignResultItem[],
+        public topScorer: OODesignResultItem
     ) {
 
     }
@@ -49,16 +49,16 @@ export class ClusteringResult {
     }
 }
 
-export class ClusteringResultItem {
+export class OODesignResultItem {
     constructor(
-        public group: ClusterGroup,
-        public closestPair: ClusterPair,
-        public score: ClusterScore
+        public group: OOClassDesign,
+        public closestPair: OOClassPair,
+        public score: OODesignScore
     ) {
     }
 
     public format() {
-        return this.group.clusters.map(c => c.id).join(" ") +
+        return this.group.classes.map(c => c.id).join(" ") +
             " :: " +
             `${this.score.score.toFixed(2)} (${this.score.cohesion.toFixed(2)}/${this.score.coupling.toFixed(2)})`
     }

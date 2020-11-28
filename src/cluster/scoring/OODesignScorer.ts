@@ -1,9 +1,9 @@
-import { Cluster } from "../Cluster";
+import { OOClass } from "../OOClass";
 
-export interface ClusterScorer {
-    score(clusters: Cluster[]): ClusterScore
+export interface OODesignScorer {
+    score(classes: OOClass[]): OODesignScore
 }
-export class ClusterScore {
+export class OODesignScore {
     public readonly score: number
     constructor(
         public readonly cohesion: number,

@@ -1,11 +1,11 @@
 import { sumBy } from "lodash";
-import { Cluster } from "../Cluster";
+import { OOClass } from "../OOClass";
 import { LORM } from "./LORM";
 
 export class LORMCoupling {
-    score(clusters: Cluster[]): number {
-        const totalRelations = sumBy(clusters, c => c.outClusterEdges()) / 2;
-        const coupling = LORM(totalRelations, clusters.length)
+    score(classes: OOClass[]): number {
+        const totalRelations = sumBy(classes, c => c.externalRelationCount()) / 2;
+        const coupling = LORM(totalRelations, classes.length)
         return coupling;
     } 
 }

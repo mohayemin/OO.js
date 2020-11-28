@@ -1,10 +1,10 @@
 import { meanBy } from "lodash";
-import { Cluster } from "../Cluster";
+import { OOClass } from "../OOClass";
 import { LORM } from "./LORM";
 
 export class AverageLORMCohesion {
-    score(clusters: Cluster[]): number {
-        return meanBy(clusters, c => LORM(c.inClusterEdges(), c.components.length));
+    score(classes: OOClass[]): number {
+        return meanBy(classes, c => LORM(c.internalRelationCount(), c.components.length));
     }
 }
 
