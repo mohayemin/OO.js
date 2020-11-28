@@ -2,7 +2,6 @@ import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { AgglomerativeClustering } from "./AgglomerativeClustering"
 import { OOClass } from "./OOClass"
-import { LORMDesignScore } from "./scoring/LORMScore"
 
 describe("agglomaretive clustering", () => {
     let A = new FunctionNode("A"),
@@ -25,7 +24,7 @@ describe("agglomaretive clustering", () => {
 
     let g = new CallGraph([A, B, C, D, E, F, G])
 
-    const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), new LORMDesignScore)
+    const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), null)
 
     it('should correctly find the closest pair', () => {
         const results = clustering.apply()

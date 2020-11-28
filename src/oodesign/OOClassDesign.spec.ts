@@ -23,10 +23,6 @@ describe("design", () => {
     const design = new OOClassDesign(functions.map(n => new OOClass(n.id, [n])))
 
 
-    function printDesign() {
-        console.log(design.classPairs.map(p => p + ''))
-    }
-
     it('should correctly find the closest pair', () => {
         let closest = design.findClosestPair()
         expect(closest.first.id).toBe("B")

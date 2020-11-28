@@ -1,6 +1,5 @@
-import { clone, intersection, union, uniq } from "./lodash";
+import { clone, intersection, union, uniq } from "lodash";
 import { FunctionNode } from "../cg/GraphNode";
-
 
 export class OOClass {
     allNeighbours: FunctionNode[];
@@ -35,15 +34,5 @@ export class OOClass {
 
     toString() {
         return this.id;
-    }
-
-    // TODO: use a set for performance
-    internalRelationCount(): number {
-        return this.allCallees.filter(callee => this.components.includes(callee)).length;
-    }
-
-    // TODO: use a set for performance
-    externalRelationCount(): number {
-        return this.allNeighbours.filter(e => !this.components.includes(e)).length;
     }
 }

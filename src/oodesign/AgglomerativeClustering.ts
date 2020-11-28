@@ -1,15 +1,15 @@
-import { maxBy } from "./lodash"
+import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
+import { OODesignMetric, OOMetricResult } from "./metrics/OODesignMetric"
 import { OOClass } from "./OOClass"
 import { OOClassDesign as OOClassDesign } from "./OOClassDesign"
 import { OOClassPair } from "./OOClassPair"
-import { OODesignScore, OODesignScorer } from "./scoring/OODesignScorer"
 
 export class AgglomerativeClustering {
     constructor(private graph: CallGraph
         , private functionToClass: (node: FunctionNode) => OOClass
-        , private scorer: OODesignScorer
+        , private designMetric: OODesignMetric
     ) {
     }
 
@@ -24,15 +24,15 @@ export class AgglomerativeClustering {
         }
         resultItems.push(this.findResultForGroup(design))
 
-        const topScorer = maxBy(resultItems, l => l.score.score)
+        const topScorer = maxBy(resultItems, l => l.score.value)
 
         return new OODesignResult(resultItems, topScorer)
     }
 
-    private findResultForGroup(group: OOClassDesign): OODesignResultItem {
-        const score = this.scorer.score(group.classes)
-        const closestPair = group.findClosestPair()
-        return new OODesignResultItem(group, closestPair, score)
+    private findResultForGroup(design: OOClassDesign): OODesignResultItem {
+        const score = this.designMetric.value(design)
+        const closestPair = design.findClosestPair()
+        return new OODesignResultItem(design, closestPair, score)
     }
 }
 
@@ -53,13 +53,13 @@ export class OODesignResultItem {
     constructor(
         public group: OOClassDesign,
         public closestPair: OOClassPair,
-        public score: OODesignScore
+        public score: OOMetricResult
     ) {
     }
 
     public format() {
         return this.group.classes.map(c => c.id).join(" ") +
             " :: " +
-            `${this.score.score.toFixed(2)} (${this.score.cohesion.toFixed(2)}/${this.score.coupling.toFixed(2)})`
+            this.score.value.toFixed(2)
     }
 }

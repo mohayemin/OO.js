@@ -1,8 +1,8 @@
-import { first, max, maxBy, pull } from "./lodash"
+import { maxBy, pull } from "lodash"
 import { OOClass } from "./OOClass"
 import { OOClassPair } from "./OOClassPair"
 export class OOClassDesign {
-    classPairs: OOClassPair[]
+    private classPairs: OOClassPair[]
     constructor(
         public readonly classes: OOClass[]) {
         this.recalculatePairs()
@@ -23,7 +23,6 @@ export class OOClassDesign {
         this.classes[firstIndex].mergeWith(second)
         pull(this.classes, second)
         this.recalculatePairs()
-        return first
     }
 
     public findClosestPair(): OOClassPair {
