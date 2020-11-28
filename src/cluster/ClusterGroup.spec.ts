@@ -1,8 +1,8 @@
 import { FunctionNode } from "../cg/GraphNode"
 import { Cluster } from "./Cluster"
-import { ClusterLevel } from "./ClusterLevel"
+import { ClusterGroup } from "./ClusterGroup"
 
-describe("clustering level", () => {
+describe("cluster set", () => {
     let A = new FunctionNode("A"),
         B = new FunctionNode("B"),
         C = new FunctionNode("C"),
@@ -20,7 +20,7 @@ describe("clustering level", () => {
     G.addCallees(C, D)
 
     let clusters = [A, B, C, D, E, F, G]
-    const level = new ClusterLevel(clusters.map(n => new Cluster(n.id, [n])))
+    const level = new ClusterGroup(clusters.map(n => new Cluster(n.id, [n])))
 
 
     function printClusters() {

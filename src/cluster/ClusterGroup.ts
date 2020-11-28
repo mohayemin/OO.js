@@ -1,7 +1,7 @@
 import { first, max, maxBy, pull } from "lodash"
 import { Cluster } from "./Cluster"
 import { ClusterPair } from "./ClusterPair"
-export class ClusterLevel {
+export class ClusterGroup {
     clusterPairs: ClusterPair[]
     constructor(
         public readonly clusters: Cluster[]) {
@@ -32,7 +32,7 @@ export class ClusterLevel {
 
     clone() {
         const clusters = this.clusters.map(c => c.clone())
-        return new ClusterLevel(clusters)
+        return new ClusterGroup(clusters)
     }
 }
 

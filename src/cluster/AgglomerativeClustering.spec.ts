@@ -2,8 +2,7 @@ import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { AgglomerativeClustering } from "./AgglomerativeClustering"
 import { Cluster } from "./Cluster"
-import { ClusterLevel } from "./ClusterLevel"
-import { LORMClusterScore, NaiveClusterScorer } from "./scoring/LORMScore"
+import { LORMClusterScore } from "./scoring/LORMScore"
 
 describe("agglomaretive clustering", () => {
     let A = new FunctionNode("A"),
@@ -23,7 +22,6 @@ describe("agglomaretive clustering", () => {
     G.addCallees()
 
     let nodes = [A, B, C, D, E, F, G]
-    const level = new ClusterLevel(nodes.map(n => new Cluster(n.id, [n])))
 
     let g = new CallGraph([A, B, C, D, E, F, G])
 

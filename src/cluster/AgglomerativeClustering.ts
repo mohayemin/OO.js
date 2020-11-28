@@ -2,7 +2,7 @@ import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { Cluster } from "./Cluster"
-import { ClusterLevel } from "./ClusterLevel"
+import { ClusterGroup as ClusterGroup } from "./ClusterGroup"
 import { ClusterPair } from "./ClusterPair"
 import { ClusterScore, ClusterScorer } from "./scoring/ClusterScorer"
 
@@ -15,24 +15,24 @@ export class AgglomerativeClustering {
 
     apply(): ClusteringResult {
         const resultItems: Array<ClusteringResultItem> = [];
-        let level = new ClusterLevel(this.graph.nodes.map(this.nodeToCluster))
-        while (level.hasMultipleClusters()) {
-            const resultItem = this.findResultForLevel(level)
+        let clusterGroup = new ClusterGroup(this.graph.nodes.map(this.nodeToCluster))
+        while (clusterGroup.hasMultipleClusters()) {
+            const resultItem = this.findResultForGroup(clusterGroup)
             resultItems.push(resultItem);
-            level = level.clone();
-            level.merge(resultItem.closestPair.firstIndex, resultItem.closestPair.secondIndex)
+            clusterGroup = clusterGroup.clone();
+            clusterGroup.merge(resultItem.closestPair.firstIndex, resultItem.closestPair.secondIndex)
         }
-        resultItems.push(this.findResultForLevel(level))
+        resultItems.push(this.findResultForGroup(clusterGroup))
 
         const topScorer = maxBy(resultItems, l => l.score.score)
 
         return new ClusteringResult(resultItems, topScorer)
     }
 
-    private findResultForLevel(level: ClusterLevel): ClusteringResultItem {
-        const score = this.scorer.score(level.clusters)
-        const closestPair = level.findClosestPair()
-        return new ClusteringResultItem(level, closestPair, score)
+    private findResultForGroup(group: ClusterGroup): ClusteringResultItem {
+        const score = this.scorer.score(group.clusters)
+        const closestPair = group.findClosestPair()
+        return new ClusteringResultItem(group, closestPair, score)
     }
 }
 
@@ -51,14 +51,14 @@ export class ClusteringResult {
 
 export class ClusteringResultItem {
     constructor(
-        public level: ClusterLevel,
+        public group: ClusterGroup,
         public closestPair: ClusterPair,
         public score: ClusterScore
     ) {
     }
 
     public format() {
-        return this.level.clusters.map(c => c.id).join(" ") +
+        return this.group.clusters.map(c => c.id).join(" ") +
             " :: " +
             `${this.score.score.toFixed(2)} (${this.score.cohesion.toFixed(2)}/${this.score.coupling.toFixed(2)})`
     }
