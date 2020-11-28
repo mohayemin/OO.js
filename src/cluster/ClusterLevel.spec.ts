@@ -1,23 +1,23 @@
-import { GraphNode } from "../cg/GraphNode"
+import { FunctionNode } from "../cg/GraphNode"
 import { Cluster } from "./Cluster"
 import { ClusterLevel } from "./ClusterLevel"
 
 describe("clustering level", () => {
-    let A = new GraphNode("A"),
-        B = new GraphNode("B"),
-        C = new GraphNode("C"),
-        D = new GraphNode("D"),
-        E = new GraphNode("E"),
-        F = new GraphNode("F"),
-        G = new GraphNode("G")
+    let A = new FunctionNode("A"),
+        B = new FunctionNode("B"),
+        C = new FunctionNode("C"),
+        D = new FunctionNode("D"),
+        E = new FunctionNode("E"),
+        F = new FunctionNode("F"),
+        G = new FunctionNode("G")
 
-    A.addNeighbour(C)
-    B.addNeighbour(E, F, G)
-    C.addNeighbour()
-    D.addNeighbour(A, C)
-    E.addNeighbour(F, G)
-    F.addNeighbour(G)
-    G.addNeighbour(C, D)
+    A.addCallees(C)
+    B.addCallees(E, F, G)
+    C.addCallees()
+    D.addCallees(A, C)
+    E.addCallees(F, G)
+    F.addCallees(G)
+    G.addCallees(C, D)
 
     let clusters = [A, B, C, D, E, F, G]
     const level = new ClusterLevel(clusters.map(n => new Cluster(n.id, [n])))

@@ -1,10 +1,12 @@
 import { clone, intersection, union, uniq } from "lodash"
-import { GraphNode } from "../cg/GraphNode"
+import { FunctionNode } from "../cg/GraphNode"
 
 export class Cluster {
-    entitySet: GraphNode[]
+    allNeighbours: FunctionNode[]
+    allCallees: FunctionNode[]
+
     constructor(public id: string,
-        public components: GraphNode[]) {
+        public components: FunctionNode[]) {
         this.buildCache()
     }
 
@@ -15,7 +17,8 @@ export class Cluster {
     }
 
     private buildCache() {
-        this.entitySet = uniq(this.components.flatMap(n => Array.from(n.entitySet)))
+        this.allNeighbours = uniq(this.components.flatMap(n => n.neighbours()))
+        this.allCallees = this.components.flatMap(n => n.callees)
     }
 
     clone() {
@@ -24,8 +27,8 @@ export class Cluster {
 
     // TODO: cache closeness for performance
     closeness(other: Cluster): number {
-        const inter = intersection(this.entitySet, other.entitySet)
-        const all = union(this.entitySet, other.entitySet)
+        const inter = intersection(this.allNeighbours, other.allNeighbours)
+        const all = union(this.allNeighbours, other.allNeighbours)
         return inter.length / all.length
     }
 
@@ -33,11 +36,13 @@ export class Cluster {
         return this.id
     }
 
+    // TODO: use a set for performance
     inClusterEdges(): number {
-        return this.entitySet.filter(e => this.components.includes(e)).length
+        return this.allCallees.filter(callee => this.components.includes(callee)).length
     }
 
+    // TODO: use a set for performance
     outClusterEdges(): number {
-        return this.entitySet.filter(e => !this.components.includes(e)).length
+        return this.allNeighbours.filter(e => !this.components.includes(e)).length
     }
 }

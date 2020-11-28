@@ -1,14 +1,14 @@
 import { maxBy } from "lodash"
-import { Graph } from "../cg/Graph"
-import { GraphNode } from "../cg/GraphNode"
+import { CallGraph } from "../cg/CallGraph"
+import { FunctionNode } from "../cg/GraphNode"
 import { Cluster } from "./Cluster"
 import { ClusterLevel } from "./ClusterLevel"
 import { ClusterPair } from "./ClusterPair"
-import { ClusterScorer } from "./scoring/ClusterScorer"
+import { ClusterScore, ClusterScorer } from "./scoring/ClusterScorer"
 
 export class AgglomerativeClustering {
-    constructor(private graph: Graph
-        , private nodeToCluster: (node: GraphNode) => Cluster
+    constructor(private graph: CallGraph
+        , private nodeToCluster: (node: FunctionNode) => Cluster
         , private scorer: ClusterScorer
     ) {
     }
@@ -24,25 +24,42 @@ export class AgglomerativeClustering {
         }
         resultItems.push(this.findResultForLevel(level))
 
-        const topScorer = maxBy(resultItems, l => l.score)
+        const topScorer = maxBy(resultItems, l => l.score.score)
 
-        return { resultItems: resultItems, topScorer }
+        return new ClusteringResult(resultItems, topScorer)
     }
 
     private findResultForLevel(level: ClusterLevel): ClusteringResultItem {
         const score = this.scorer.score(level.clusters)
         const closestPair = level.findClosestPair()
-        return { level, closestPair, score }
+        return new ClusteringResultItem(level, closestPair, score)
     }
 }
 
-export interface ClusteringResult {
-    resultItems: ClusteringResultItem[]
-    topScorer: ClusteringResultItem
+export class ClusteringResult {
+    constructor(
+        public resultItems: ClusteringResultItem[],
+        public topScorer: ClusteringResultItem
+    ) {
+
+    }
+
+    format() {
+        return this.resultItems.map(ri => ri.format()).join("\n")
+    }
 }
 
 export class ClusteringResultItem {
-    level: ClusterLevel
-    closestPair: ClusterPair
-    score: number
+    constructor(
+        public level: ClusterLevel,
+        public closestPair: ClusterPair,
+        public score: ClusterScore
+    ) {
+    }
+
+    public format() {
+        return this.level.clusters.map(c => c.id).join(" ") +
+            " :: " +
+            `${this.score.score.toFixed(2)} (${this.score.cohesion.toFixed(2)}/${this.score.coupling.toFixed(2)})`
+    }
 }
