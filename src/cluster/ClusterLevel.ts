@@ -9,8 +9,8 @@ export class ClusterLevel {
     }
 
     private recalculatePairs() {
-        this.clusterPairs = this.clusters.slice(0, this.clusters.length - 1).flatMap((first, i) =>
-            this.clusters.slice(i + 1, this.clusters.length).map(second => new PrintableClusterPair(first, second))
+        this.clusterPairs = this.clusters.slice(0, this.clusters.length - 1).flatMap((_, i) =>
+            this.clusters.slice(i + 1, this.clusters.length).map((_, j) => new PrintableClusterPair(this.clusters, i, i + j + 1))
         )
     }
 
@@ -18,8 +18,9 @@ export class ClusterLevel {
         return this.clusters.length > 1
     }
 
-    merge(first: Cluster, second: Cluster) {
-        first.mergeWith(second)
+    merge(firstIndex: number, secondIndex: number) {
+        const second = this.clusters[secondIndex];
+        this.clusters[firstIndex].mergeWith(second)
         pull(this.clusters, second)
         this.recalculatePairs()
         return first
@@ -33,19 +34,20 @@ export class ClusterLevel {
         const clusters = this.clusters.map(c => c.clone())
         return new ClusterLevel(clusters)
     }
-
-    score() {
-        return 0
-    }
 }
 
 class PrintableClusterPair implements ClusterPair {
     public closeness: number
+    public first: Cluster
+    public second: Cluster
     constructor(
-        public first: Cluster,
-        public second: Cluster
+        clusters: Cluster[],
+        public firstIndex: number,
+        public secondIndex: number
     ) {
-        this.closeness = first.closeness(second)
+        this.first = clusters[firstIndex]
+        this.second = clusters[secondIndex]
+        this.closeness = this.first.closeness(this.second)
     }
 
     toString() {

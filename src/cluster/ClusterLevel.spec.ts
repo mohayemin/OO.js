@@ -1,6 +1,7 @@
 import { GraphNode } from "../cg/GraphNode"
 import { Cluster } from "./Cluster"
 import { ClusterLevel } from "./ClusterLevel"
+
 describe("clustering level", () => {
     let A = new GraphNode("A"),
         B = new GraphNode("B"),
@@ -32,31 +33,31 @@ describe("clustering level", () => {
         expect(closest.second.id).toBe("E")
         expect(closest.closeness).toBeCloseTo(1)
 
-        level.merge(closest.first, closest.second)
+        level.merge(closest.firstIndex, closest.secondIndex)
         closest = level.findClosestPair()
         expect(closest.first.id).toBe("B$E")
         expect(closest.second.id).toBe("F")
         expect(closest.closeness).toBeCloseTo(1)
 
-        level.merge(closest.first, closest.second)
+        level.merge(closest.firstIndex, closest.secondIndex)
         closest = level.findClosestPair()
         expect(closest.first.id).toBe("C")
         expect(closest.second.id).toBe("D")
         expect(closest.closeness).toBeCloseTo(1)
 
-        level.merge(closest.first, closest.second)
+        level.merge(closest.firstIndex, closest.secondIndex)
         closest = level.findClosestPair()
         expect(closest.first.id).toBe("A")
         expect(closest.second.id).toBe("C$D")
         expect(closest.closeness).toBeCloseTo(3/4)
 
-        level.merge(closest.first, closest.second)
+        level.merge(closest.firstIndex, closest.secondIndex)
         closest = level.findClosestPair()
         expect(closest.first.id).toBe("B$E$F")
         expect(closest.second.id).toBe("G")
         expect(closest.closeness).toBeCloseTo(4/6)
 
-        level.merge(closest.first, closest.second)
+        level.merge(closest.firstIndex, closest.secondIndex)
         closest = level.findClosestPair()
         expect(closest.first.id).toBe("A$C$D")
         expect(closest.second.id).toBe("B$E$F$G")

@@ -1,4 +1,4 @@
-import { clone, intersection, union } from "lodash"
+import { clone, intersection, union, uniq } from "lodash"
 import { GraphNode } from "../cg/GraphNode"
 
 export class Cluster {
@@ -15,7 +15,7 @@ export class Cluster {
     }
 
     private buildCache() {
-        this.entitySet = this.components.flatMap(n => Array.from(n.entitySet))
+        this.entitySet = uniq(this.components.flatMap(n => Array.from(n.entitySet)))
     }
 
     clone() {
@@ -38,6 +38,6 @@ export class Cluster {
     }
 
     outClusterEdges(): number {
-        return this.entitySet.filter(e => this.components.includes(e)).length
+        return this.entitySet.filter(e => !this.components.includes(e)).length
     }
 }
