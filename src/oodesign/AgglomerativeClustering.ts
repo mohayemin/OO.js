@@ -1,7 +1,8 @@
 import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
-import { OODesignMetric, OOMetricResult } from "./metrics/OODesignMetric"
+import { OODesignMetric } from "./metrics/OODesignMetric"
+import { OOMetricResult } from "./metrics/OOMetricResult"
 import { OOClass } from "./OOClass"
 import { OOClassDesign as OOClassDesign } from "./OOClassDesign"
 import { OOClassPair } from "./OOClassPair"
@@ -60,6 +61,8 @@ export class OODesignResultItem {
     public format() {
         return this.group.classes.map(c => c.id).join(" ") +
             " :: " +
-            this.score.value.toFixed(2)
+            this.score.value.toFixed(2) + 
+            " (" + this.score.parts.join(" ") + ")"
+            
     }
 }

@@ -6,23 +6,23 @@ export class OOClass {
     allCallees: FunctionNode[];
 
     constructor(public id: string,
-        public components: FunctionNode[]) {
+        public methods: FunctionNode[]) {
         this.buildCache();
     }
 
     mergeWith(other: OOClass): void {
         this.id += "$" + other.id;
-        this.components.push(...other.components);
+        this.methods.push(...other.methods);
         this.buildCache();
     }
 
     private buildCache() {
-        this.allNeighbours = uniq(this.components.flatMap(n => n.neighbours()));
-        this.allCallees = this.components.flatMap(n => n.callees);
+        this.allNeighbours = uniq(this.methods.flatMap(n => n.neighbours()));
+        this.allCallees = this.methods.flatMap(n => n.callees);
     }
 
     clone() {
-        return new OOClass(this.id, clone(this.components));
+        return new OOClass(this.id, clone(this.methods));
     }
 
     // TODO: cache closeness for performance

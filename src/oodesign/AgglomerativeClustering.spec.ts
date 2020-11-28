@@ -1,6 +1,7 @@
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { AgglomerativeClustering } from "./AgglomerativeClustering"
+import { CohesionOverCouplingMetric, CompositeMetric1 } from "./metrics/CompositeMetric1"
 import { OOClass } from "./OOClass"
 
 describe("agglomaretive clustering", () => {
@@ -24,7 +25,7 @@ describe("agglomaretive clustering", () => {
 
     let g = new CallGraph([A, B, C, D, E, F, G])
 
-    const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), null)
+    const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), new CohesionOverCouplingMetric)
 
     it('should correctly find the closest pair', () => {
         const results = clustering.apply()
