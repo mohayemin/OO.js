@@ -1,7 +1,8 @@
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { AgglomerativeClustering } from "./AgglomerativeClustering"
-import { CohesionOverCouplingMetric, CompositeMetric1 } from "./metrics/CompositeMetric1"
+import { CompositeMetric1 } from "./metrics/CompositeMetric1"
+import { CohesionOverCouplingMetric } from "./metrics/CohesionOverCouplingMetric"
 import { OOClass } from "./OOClass"
 
 describe("agglomaretive clustering", () => {

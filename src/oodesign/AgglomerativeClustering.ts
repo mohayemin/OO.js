@@ -1,7 +1,7 @@
 import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
-import { OODesignMetric } from "./metrics/OODesignMetric"
+import { CompositeOODesignMetric } from "./metrics/CompositeOODesignMetric"
 import { OOMetricResult } from "./metrics/OOMetricResult"
 import { OOClass } from "./OOClass"
 import { OOClassDesign as OOClassDesign } from "./OOClassDesign"
@@ -10,7 +10,7 @@ import { OOClassPair } from "./OOClassPair"
 export class AgglomerativeClustering {
     constructor(private graph: CallGraph
         , private functionToClass: (node: FunctionNode) => OOClass
-        , private designMetric: OODesignMetric
+        , private designMetric: CompositeOODesignMetric
     ) {
     }
 
