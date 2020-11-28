@@ -1,4 +1,4 @@
-import { maxBy } from "lodash"
+import { maxBy } from "./lodash"
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { OOClass } from "./OOClass"

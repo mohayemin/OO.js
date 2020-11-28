@@ -1,4 +1,4 @@
-import { first, max, maxBy, pull } from "lodash"
+import { first, max, maxBy, pull } from "./lodash"
 import { OOClass } from "./OOClass"
 import { OOClassPair } from "./OOClassPair"
 export class OOClassDesign {

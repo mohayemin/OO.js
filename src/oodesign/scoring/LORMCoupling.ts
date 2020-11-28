@@ -1,4 +1,4 @@
-import { sumBy } from "lodash";
+import { sumBy } from "./lodash";
 import { OOClass } from "../OOClass";
 import { LORM } from "./LORM";
 

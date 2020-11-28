@@ -1,4 +1,4 @@
-import { meanBy } from "lodash";
+import { meanBy } from "./lodash";
 import { OOClass } from "../OOClass";
 import { LORM } from "./LORM";
 

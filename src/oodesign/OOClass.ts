@@ -1,4 +1,4 @@
-import { clone, intersection, union, uniq } from "lodash";
+import { clone, intersection, union, uniq } from "./lodash";
 import { FunctionNode } from "../cg/GraphNode";
 
 

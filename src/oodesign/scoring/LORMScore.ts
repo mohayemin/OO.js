@@ -2,7 +2,7 @@ import { AverageLORMCohesion } from "./AverageLORMCohesion";
 import { OOClass } from "../OOClass";
 import { OODesignScore, OODesignScorer } from "./OODesignScorer";
 import { LORMCoupling } from "./LORMCoupling";
-import { map, mean, meanBy, sumBy } from "lodash";
+import { map, mean, meanBy, sumBy } from "./lodash";
 
 export class LORMDesignScore implements OODesignScorer {
     score(classes: OOClass[]) {
