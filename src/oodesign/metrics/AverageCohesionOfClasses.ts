@@ -16,8 +16,3 @@ export class AverageCohesionOfClasses extends AverageOfClassesOODesignMetric {
     }
 }
 
-export class AverageInstabilityMetric extends AverageOfClassesOODesignMetric {
-    valueForClass(ooClass: OOClass): number {
-        return 0;
-    }
-}
