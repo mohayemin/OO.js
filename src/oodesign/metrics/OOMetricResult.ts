@@ -5,4 +5,8 @@ export class OOMetricResult {
         public readonly parts: number[] = []
     ) {
     }
+
+    format() {
+        return this.value.toFixed(2) + " (" + this.parts.map(p => p.toFixed(2)).join(" ") + ")"
+    }
 }

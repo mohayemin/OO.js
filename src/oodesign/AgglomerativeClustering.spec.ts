@@ -1,8 +1,7 @@
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { AgglomerativeClustering } from "./AgglomerativeClustering"
-import { CompositeMetric1 } from "./metrics/CompositeMetric1"
-import { CohesionOverCouplingMetric } from "./metrics/CohesionOverCouplingMetric"
+import { CohesionCouplingMetric as CohesionCouplingMetric } from "./metrics/CohesionCouplingMetric"
 import { OOClass } from "./OOClass"
 
 describe("agglomaretive clustering", () => {
@@ -17,19 +16,24 @@ describe("agglomaretive clustering", () => {
     A.addCallees(B, C, D)
     B.addCallees(D)
     C.addCallees(D)
-    D.addCallees(G)
     E.addCallees(F, G)
     F.addCallees(G)
     G.addCallees()
 
-    let nodes = [A, B, C, D, E, F, G]
 
-    let g = new CallGraph([A, B, C, D, E, F, G])
+    it('with D calling G', () => {
+        D.addCallees(G)
+        let g = new CallGraph([A, B, C, D, E, F, G])
+        const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), new CohesionCouplingMetric)
+        const results = clustering.apply()
+        expect(results.topScorer.design.classes.length).toBe(3)
+    })
 
-    const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), new CohesionOverCouplingMetric)
-
-    it('should correctly find the closest pair', () => {
+    it('without D calling G', () => {
+        let g = new CallGraph([A, B, C, D, E, F, G])
+        const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), new CohesionCouplingMetric)
         const results = clustering.apply()
         console.log(results.format())
+        expect(results.topScorer.design.classes.length).toBe(2)
     })
 })

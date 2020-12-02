@@ -2,10 +2,10 @@ import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
 import { FunctionNode } from "../cg/GraphNode"
 import { CompositeOODesignMetric } from "./metrics/CompositeOODesignMetric"
-import { OOMetricResult } from "./metrics/OOMetricResult"
 import { OOClass } from "./OOClass"
 import { OOClassDesign as OOClassDesign } from "./OOClassDesign"
-import { OOClassPair } from "./OOClassPair"
+import { OODesignResult } from "./OODesignResult"
+import { OODesignResultItem } from "./OODesignResultItem"
 
 export class AgglomerativeClustering {
     constructor(private graph: CallGraph
@@ -37,32 +37,4 @@ export class AgglomerativeClustering {
     }
 }
 
-export class OODesignResult {
-    constructor(
-        public resultItems: OODesignResultItem[],
-        public topScorer: OODesignResultItem
-    ) {
 
-    }
-
-    format() {
-        return this.resultItems.map(ri => ri.format()).join("\n")
-    }
-}
-
-export class OODesignResultItem {
-    constructor(
-        public group: OOClassDesign,
-        public closestPair: OOClassPair,
-        public score: OOMetricResult
-    ) {
-    }
-
-    public format() {
-        return this.group.classes.map(c => c.id).join(" ") +
-            " :: " +
-            this.score.value.toFixed(2) + 
-            " (" + this.score.parts.join(" ") + ")"
-            
-    }
-}
