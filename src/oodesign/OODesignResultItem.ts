@@ -44,7 +44,7 @@ export class OODesignResultItem {
             " :: " +
             formatWithSign(this.score()) +
             " (" +
-            map(this.normalValues, formatWithSign) +
+            map(this.normalValues, formatWithSign).join(" ") +
             ") " +
             this.rank;
     }
