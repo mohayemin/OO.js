@@ -1,4 +1,3 @@
-import { CallGraph } from "../src/cg/CallGraph"
 import { FunctionNode } from "../src/cg/FunctionNode"
 import { AgglomerativeClustering } from "../src/oodesign/AgglomerativeClustering"
 import { AverageCouplingMetric as AverageCouplingMetric } from "../src/oodesign/metrics/CouplingMetric"

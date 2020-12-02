@@ -1,22 +1,24 @@
 import { CallGraph } from "./CallGraph"
 import { fileSync as tempFile } from 'tmp'
-import { readFileSync } from 'fs'
-import { execSync } from 'child_process'
 import { EdgeInfo, NodeInfo } from "./cgTypes"
 import { FunctionNode } from "./FunctionNode"
 import { Dictionary } from "lodash"
+import * as JCG from "@persper/js-callgraph"
 
 export class CallGraphBuilder {
     private nodeMap: Dictionary<FunctionNode> = {}
     constructor(public readonly filepath: string, 
         private mapNodeId: mapNodeId = mapSimpleNodeId) {
+            
     }
 
     buildCg(): CallGraph {
-        const outFile = tempFile({ postfix: '.json' })
-        execSync(`npx js-callgraph --cg ${this.filepath} --output=${outFile.name}`, { encoding: 'utf-8' })
-        const jsonString = readFileSync(outFile.name, { encoding: 'utf-8' })
-        const edgeInfos: EdgeInfo[] = JSON.parse(jsonString)
+        JCG.setArgs({
+            "cg": true,
+            "output": null
+        })
+        JCG.setFiles([this.filepath])
+        const edgeInfos: EdgeInfo[] = JCG.build()
 
         edgeInfos.forEach(edgeInfo => {
             const source = this.getOrCreateNode(edgeInfo.source)

@@ -1,6 +1,5 @@
 import { intersection, sumBy } from "lodash";
 import { OOClass } from "../OOClass";
-import { OOClassDesign } from "../OOClassDesign";
 import { AverageOfClassMetric, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
 import { Range } from "./Range";
