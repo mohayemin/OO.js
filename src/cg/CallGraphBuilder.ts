@@ -3,7 +3,7 @@ import { fileSync as tempFile } from 'tmp'
 import { readFileSync } from 'fs'
 import { execSync } from 'child_process'
 import { EdgeInfo, NodeInfo } from "./cgTypes"
-import { FunctionNode } from "./GraphNode"
+import { FunctionNode } from "./FunctionNode"
 import { Dictionary } from "lodash"
 
 export class CallGraphBuilder {

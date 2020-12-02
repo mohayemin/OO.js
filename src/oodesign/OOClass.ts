@@ -1,5 +1,5 @@
 import { clone, intersection, union, uniq } from "lodash";
-import { FunctionNode } from "../cg/GraphNode";
+import { FunctionNode } from "../cg/FunctionNode";
 
 export class OOClass {
     allNeighbours: FunctionNode[];

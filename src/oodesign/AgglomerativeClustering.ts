@@ -1,6 +1,6 @@
 import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
-import { FunctionNode } from "../cg/GraphNode"
+import { FunctionNode } from "../cg/FunctionNode"
 import { OODesignMetric } from "./metrics/OODesignMetric"
 import { OOClass } from "./OOClass"
 import { OOClassDesign as OOClassDesign } from "./OOClassDesign"

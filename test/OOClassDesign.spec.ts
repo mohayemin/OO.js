@@ -1,4 +1,4 @@
-import { FunctionNode } from "../src/cg/GraphNode"
+import { FunctionNode } from "../src/cg/FunctionNode"
 import { OOClass } from "../src/oodesign/OOClass"
 import { OOClassDesign } from "../src/oodesign/OOClassDesign"
 
