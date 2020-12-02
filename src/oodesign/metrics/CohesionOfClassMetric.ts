@@ -8,9 +8,9 @@ export class CohesionOfClassMetric implements OOClassMetric {
         if (functions == 1)
             return 1;
 
-        const actualRelations = intersection(ooClass.allCallees, ooClass.methods).length;
+        const inClassCalls = intersection(ooClass.allCallees, ooClass.methods).length;
         const possibleRelations = functions * (functions - 1) / 2;
 
-        return actualRelations / possibleRelations;
+        return inClassCalls / possibleRelations;
     }
 }

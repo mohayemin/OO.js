@@ -26,6 +26,7 @@ describe("agglomaretive clustering", () => {
         let g = new CallGraph([A, B, C, D, E, F, G])
         const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), new CohesionCouplingMetric)
         const results = clustering.apply()
+        console.log(results.format())
         expect(results.topScorer.design.classes.length).toBe(3)
     })
 

@@ -21,3 +21,7 @@ describe("cohession of classes", () => {
         expect(val).toBeCloseTo(.6667)
     })
 })
+
+describe("Weighted average cohession of classes", ()=>{
+
+})

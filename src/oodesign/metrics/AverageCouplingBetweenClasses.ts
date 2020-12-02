@@ -1,12 +1,21 @@
-import { uniq, without } from "lodash";
+import { sumBy, uniq, without } from "lodash";
 import { OOClass } from "../OOClass";
-import { AverageOfClassesOODesignMetric } from "./AverageOfClassesOODesignMetric";
+import { OOClassDesign } from "../OOClassDesign";
+import { OOClassMetric } from "./OOClassMetric";
+import { OODesignMetric } from "./OODesignMetric";
 
+export class AverageCouplingBetweenClasses implements OODesignMetric {
+    value(design: OOClassDesign): number {
+        const classCoupling = new CouplingOfClass().value;
+        const wightedSum = sumBy(design.classes, cls => cls.methods.length * classCoupling(cls))
+        const wightedAvg = wightedSum / design.totalMethods()
+        return wightedAvg
+    }
+}
 
-export class AverageCouplingBetweenClasses extends AverageOfClassesOODesignMetric {
+export class CouplingOfClass implements OOClassMetric {
     // Chidamber and Kemerer, 1994
-    valueForClass(ooClass: OOClass) {
-        return 1 + uniq(without(ooClass.allCallees, ...ooClass.methods)).length;
-        // one added to avoid zero value that causes devide by zero
+    value(ooClass: OOClass): number {
+        return uniq(without(ooClass.allCallees, ...ooClass.methods)).length;
     }
 }
