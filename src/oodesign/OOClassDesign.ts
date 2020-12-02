@@ -1,4 +1,4 @@
-import { maxBy, pull } from "lodash"
+import { maxBy, pull, sumBy } from "lodash"
 import { OOClass } from "./OOClass"
 import { OOClassPair } from "./OOClassPair"
 export class OOClassDesign {
@@ -27,6 +27,10 @@ export class OOClassDesign {
 
     public findClosestPair(): OOClassPair {
         return maxBy(this.classPairs, p => p.closeness)
+    }
+
+    public totalMethods() {
+        return sumBy(this.classes, cls => cls.methods.length)
     }
 
     clone() {

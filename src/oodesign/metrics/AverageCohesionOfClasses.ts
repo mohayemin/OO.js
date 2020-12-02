@@ -1,18 +1,14 @@
-import { intersection } from "lodash";
-import { OOClass } from "../OOClass";
-import { AverageOfClassesOODesignMetric } from "./AverageOfClassesOODesignMetric";
+import { sumBy } from "lodash";
+import { OOClassDesign } from "../OOClassDesign";
+import { CohesionOfClassMetric } from "./CohesionOfClassMetric";
+import { OODesignMetric } from "./OODesignMetric";
 
-
-export class AverageCohesionOfClasses extends AverageOfClassesOODesignMetric {
-    valueForClass(ooClass: OOClass): number {
-        const functions = ooClass.methods.length;
-        if (functions == 1)
-            return 1;
-
-        const actualRelations = intersection(ooClass.allCallees, ooClass.methods).length;
-        const possibleRelations = functions * (functions - 1) / 2;
-
-        return actualRelations / possibleRelations;
+export class AverageCohesionOfClasses implements OODesignMetric {
+    value(design: OOClassDesign): number {
+        const classCohession = new CohesionOfClassMetric().value;
+        const wightedSum = sumBy(design.classes, cls => cls.methods.length * classCohession(cls))
+        const wightedAvg = wightedSum / design.totalMethods()
+        return wightedAvg
     }
 }
 
