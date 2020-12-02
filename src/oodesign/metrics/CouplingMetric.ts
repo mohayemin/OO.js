@@ -3,7 +3,7 @@ import { OOClass } from "../OOClass";
 import { AverageOfClassMetric } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
 
-export class AverageCouplingBetweenClasses extends AverageOfClassMetric {
+export class AverageCouplingMetric extends AverageOfClassMetric {
     constructor() {
         super("average-coupling", -1, new CouplingOfClass);
     }

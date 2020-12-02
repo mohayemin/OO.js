@@ -1,17 +1,13 @@
 import { intersection, sumBy } from "lodash";
 import { OOClass } from "../OOClass";
 import { OOClassDesign } from "../OOClassDesign";
+import { AverageOfClassMetric } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
 import { OODesignMetric } from "./OODesignMetric";
 
-export class AverageCohesionOfClasses implements OODesignMetric {
-    factor = 1;
-    id = "weighted-average-cohession-of-classes";
-    value(design: OOClassDesign): number {
-        const classCohession = new CohesionOfClassMetric().value;
-        const wightedSum = sumBy(design.classes, cls => cls.methods.length * classCohession(cls))
-        const wightedAvg = wightedSum / design.totalMethods()
-        return wightedAvg
+export class AverageCohesionMetric extends AverageOfClassMetric {
+    constructor(){
+        super("average-cohession", 1, new CohesionOfClassMetric)
     }
 }
 

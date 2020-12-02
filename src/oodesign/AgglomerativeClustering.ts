@@ -9,14 +9,13 @@ import { OODesignResultItem } from "./OODesignResultItem"
 
 export class AgglomerativeClustering {
     constructor(private graph: CallGraph
-        , private functionToClass: (node: FunctionNode) => OOClass
         , private metrics: OODesignMetric[]
     ) {
     }
 
     apply(): OODesignResult {
         const resultItems: Array<OODesignResultItem> = []
-        let design = new OOClassDesign(this.graph.nodes.map(this.functionToClass))
+        let design = new OOClassDesign(this.graph.nodes.map(n => new OOClass(n.id, [n])))
         while (design.hasMultipleClasses()) {
             const resultItem = this.findResultForDesign(design)
             resultItems.push(resultItem)

@@ -1,7 +1,7 @@
 {
   "name": "oo-design-suggestion",
   "version": "1.0.0",
-  "description": "��\r\u0000 \u0000",
+  "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json",

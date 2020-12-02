@@ -7,8 +7,9 @@ import { FunctionNode } from "./GraphNode"
 import { Dictionary } from "lodash"
 
 export class CallGraphBuilder {
-    private nodeMap: Dictionary<FunctionNode>
-    constructor(public readonly filepath: string) {
+    private nodeMap: Dictionary<FunctionNode> = {}
+    constructor(public readonly filepath: string, 
+        private mapNodeId: mapNodeId = mapSimpleNodeId) {
     }
 
     buildCg(): CallGraph {
@@ -27,7 +28,7 @@ export class CallGraphBuilder {
     }
 
     private getOrCreateNode(nodeInfo: NodeInfo): FunctionNode {
-        const id = `${nodeInfo.file}@${nodeInfo.label}@${nodeInfo.start.row}:${nodeInfo.start.column}`
+        const id = this.mapNodeId(nodeInfo)
 
         let node = this.nodeMap[id]
         if (!node) {
@@ -37,4 +38,10 @@ export class CallGraphBuilder {
 
         return node
     }
+}
+
+export type mapNodeId = (node: NodeInfo) => string
+
+export function mapSimpleNodeId(node: NodeInfo) {
+    return node.label
 }
