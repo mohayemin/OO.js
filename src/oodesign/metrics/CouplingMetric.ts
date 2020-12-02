@@ -1,11 +1,15 @@
 import { sumBy, uniq, without } from "lodash";
 import { OOClass } from "../OOClass";
-import { AverageOfClassMetric } from "./AverageOfClassMetric";
+import { AverageOfClassMetric, fromValuesValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
 
 export class AverageCouplingMetric extends AverageOfClassMetric {
     constructor() {
-        super("average-coupling", -1, new CouplingOfClass);
+        super("average-coupling",
+            -1,
+            new CouplingOfClass,
+            fromValuesValueRangeAlgorithm
+        );
     }
 }
 

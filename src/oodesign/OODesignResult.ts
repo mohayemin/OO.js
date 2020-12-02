@@ -30,7 +30,7 @@ export class OODesignResult {
 
     private processMetric(metric: OODesignMetric) {
         const rawValues = this.resultItems.map(result => result.getRaw(metric.id))
-        const range = Range.fromValues(rawValues)
+        const range = metric.possibleValueRange(rawValues)
         this.resultItems.forEach(result => result.normalize(metric, range))
     }
 

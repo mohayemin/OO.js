@@ -1,13 +1,22 @@
 import { intersection, sumBy } from "lodash";
 import { OOClass } from "../OOClass";
 import { OOClassDesign } from "../OOClassDesign";
-import { AverageOfClassMetric } from "./AverageOfClassMetric";
+import { AverageOfClassMetric, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
 import { OODesignMetric } from "./OODesignMetric";
+import { Range } from "./Range";
 
 export class AverageCohesionMetric extends AverageOfClassMetric {
-    constructor(){
-        super("average-cohession", 1, new CohesionOfClassMetric)
+    constructor() {
+        super("average-cohession",
+            1,
+            new CohesionOfClassMetric,
+            zeroToOneValueRangeAlgorithm
+        )
+    }
+
+    possibleValueRange() {
+        return new Range(0, 1)
     }
 }
 

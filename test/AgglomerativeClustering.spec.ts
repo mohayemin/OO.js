@@ -3,42 +3,34 @@ import { FunctionNode } from "../src/cg/GraphNode"
 import { AgglomerativeClustering } from "../src/oodesign/AgglomerativeClustering"
 import { AverageCouplingMetric as AverageCouplingMetric } from "../src/oodesign/metrics/CouplingMetric"
 import { AverageCohesionMetric as AverageCohesionMetric } from "../src/oodesign/metrics/CohesionMetric"
+import { CallGraphBuilder } from "../src/cg/CallGraphBuilder"
 
 describe("agglomaretive clustering", () => {
-    let A = new FunctionNode("A"),
-        B = new FunctionNode("B"),
-        C = new FunctionNode("C"),
-        D = new FunctionNode("D"),
-        E = new FunctionNode("E"),
-        F = new FunctionNode("F"),
-        G = new FunctionNode("G")
 
-    A.addCallees(B, C, D)
-    B.addCallees(D)
-    C.addCallees(D)
-    E.addCallees(F, G)
-    F.addCallees(G)
-    G.addCallees()
+    const metrics = [
+        // new AverageClassSizeMetric, 
+        new AverageCouplingMetric,
+        new AverageCohesionMetric
+    ]
 
-
-    // it('with D calling G', () => {
-    //     D.addCallees(G)
-    //     let g = new CallGraph([A, B, C, D, E, F, G])
-    //     const clustering = new AgglomerativeClustering(g, n => new OOClass(n.id, [n]), new CohesionCouplingMetric)
-    //     const results = clustering.apply()
-    //     console.log(results.format())
-    //     expect(results.topScorer.design.classes.length).toBe(3)
-    // })
-
-    it('without D calling G', () => {
-        let g = new CallGraph([A, B, C, D, E, F, G])
-        const clustering = new AgglomerativeClustering(g, [
-            // new AverageClassSizeMetric, 
-            new AverageCouplingMetric,
-            new AverageCohesionMetric
-        ])
-        const results = clustering.apply()
-        console.log(results.format())
-        expect(results.topScorer.design.classes.length).toBe(2)
+    it('without d calling g', () => {
+        testIt("abcdefg_2-class.js", 2)
     })
+
+    it('with d calling g', () => {
+        testIt("abcdefg_d-calls-g.js", 3)
+    })
+
+    it("sample 1", () => {
+        testIt("sample1.js", 1)
+    })
+
+    function testIt(inputFile: string, expectedClassCount: number) {
+        const cg = new CallGraphBuilder("sample-input/" + inputFile).buildCg()
+        const clustering = new AgglomerativeClustering(cg, metrics)
+        const results = clustering.apply()
+        if (expect(results.topScorer.design.classes.length).toBe(expectedClassCount)) {
+            console.log(results.format())
+        }
+    }
 })
