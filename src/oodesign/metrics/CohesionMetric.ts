@@ -3,7 +3,6 @@ import { OOClass } from "../OOClass";
 import { OOClassDesign } from "../OOClassDesign";
 import { AverageOfClassMetric, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
-import { OODesignMetric } from "./OODesignMetric";
 import { Range } from "./Range";
 
 export class AverageCohesionMetric extends AverageOfClassMetric {
@@ -21,6 +20,7 @@ export class AverageCohesionMetric extends AverageOfClassMetric {
 }
 
 export class CohesionOfClassMetric implements OOClassMetric {
+    // LORM
     value(ooClass: OOClass): number {
         const functions = ooClass.methods.length;
         if (functions == 1)

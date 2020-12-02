@@ -3,7 +3,7 @@ import { AverageOfClassMetric, fromValuesValueRangeAlgorithm } from "./AverageOf
 import { OOClassMetric } from "./OOClassMetric";
 
 // Chidamber and Kemerer, 1994
-export class AverageClassSize extends AverageOfClassMetric {
+export class AverageClassSizeMetric extends AverageOfClassMetric {
     constructor() {
         super("average-methods-per-class",
             -1,
