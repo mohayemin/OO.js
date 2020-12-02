@@ -1,8 +1,8 @@
-import { CallGraph } from "../cg/CallGraph"
-import { FunctionNode } from "../cg/GraphNode"
-import { AgglomerativeClustering } from "./AgglomerativeClustering"
-import { CohesionCouplingMetric as CohesionCouplingMetric } from "./metrics/CohesionCouplingMetric"
-import { OOClass } from "./OOClass"
+import { CallGraph } from "../src/cg/CallGraph"
+import { FunctionNode } from "../src/cg/GraphNode"
+import { AgglomerativeClustering } from "../src/oodesign/AgglomerativeClustering"
+import { CohesionCouplingMetric as CohesionCouplingMetric } from "../src/oodesign/metrics/CohesionCouplingMetric"
+import { OOClass } from "../src/oodesign/OOClass"
 
 describe("agglomaretive clustering", () => {
     let A = new FunctionNode("A"),

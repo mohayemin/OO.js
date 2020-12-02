@@ -1,6 +1,6 @@
-import { FunctionNode } from "../cg/GraphNode"
-import { OOClass } from "./OOClass"
-import { OOClassDesign } from "./OOClassDesign"
+import { FunctionNode } from "../src/cg/GraphNode"
+import { OOClass } from "../src/oodesign/OOClass"
+import { OOClassDesign } from "../src/oodesign/OOClassDesign"
 
 describe("design", () => {
     let A = new FunctionNode("A"),
