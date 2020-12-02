@@ -1,5 +1,5 @@
 import { FunctionNode } from "../src/cg/GraphNode"
-import { CohesionOfClassMetric } from "../src/oodesign/metrics/CohesionOfClassMetric"
+import { CohesionOfClassMetric } from "../src/oodesign/metrics/CohesionMetric"
 import { OOClass } from "../src/oodesign/OOClass"
 
 describe("cohession of classes", () => {

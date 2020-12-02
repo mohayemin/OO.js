@@ -1,10 +1,12 @@
-import { maxBy, pull, sumBy } from "lodash"
+import { Dictionary, maxBy, pull, sumBy } from "lodash"
 import { OOClass } from "./OOClass"
 import { OOClassPair } from "./OOClassPair"
 export class OOClassDesign {
     private classPairs: OOClassPair[]
+
     constructor(
-        public readonly classes: OOClass[]) {
+        public readonly classes: OOClass[],
+        ) {
         this.recalculatePairs()
     }
 
@@ -18,11 +20,13 @@ export class OOClassDesign {
         return this.classes.length > 1
     }
 
-    merge(firstIndex: number, secondIndex: number) {
-        const second = this.classes[secondIndex];
-        this.classes[firstIndex].mergeWith(second)
-        pull(this.classes, second)
-        this.recalculatePairs()
+    merge(firstIndex: number, secondIndex: number): OOClassDesign {
+        const newClasses = this.classes.map(c => c.clone())
+        const first = newClasses[firstIndex]
+        const second = newClasses[secondIndex]
+        first.mergeWith(second)
+        pull(newClasses, second)
+        return new OOClassDesign(newClasses)
     }
 
     public findClosestPair(): OOClassPair {
@@ -31,11 +35,6 @@ export class OOClassDesign {
 
     public totalMethods() {
         return sumBy(this.classes, cls => cls.methods.length)
-    }
-
-    clone() {
-        const classes = this.classes.map(c => c.clone())
-        return new OOClassDesign(classes)
     }
 }
 
