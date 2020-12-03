@@ -3,6 +3,7 @@ import { AgglomerativeClustering } from "../src/oodesign/AgglomerativeClustering
 import { AverageCouplingMetric as AverageCouplingMetric } from "../src/oodesign/metrics/CouplingMetric"
 import { AverageCohesionMetric as AverageCohesionMetric } from "../src/oodesign/metrics/CohesionMetric"
 import { CallGraphBuilder } from "../src/cg/CallGraphBuilder"
+import { main } from "../src"
 
 describe("agglomaretive clustering", () => {
 
@@ -32,4 +33,11 @@ describe("agglomaretive clustering", () => {
             console.log(results.format())
         }
     }
+})
+
+
+describe("", () => {
+    it("xxx", ()=> {
+        main(["sample-input/this-project/code.js"])
+    })
 })

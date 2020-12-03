@@ -6,5 +6,12 @@
         "lib": [
             "ES2019"
         ]
-    }
+    },
+    "exclude": [
+        "node_modules",
+        "build",
+        "sample-input",
+        ".vscode",
+        "test"
+    ]
 }

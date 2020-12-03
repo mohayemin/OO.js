@@ -1,5 +1,4 @@
 import { CallGraph } from "./CallGraph"
-import { fileSync as tempFile } from 'tmp'
 import { EdgeInfo, NodeInfo } from "./cgTypes"
 import { FunctionNode } from "./FunctionNode"
 import { Dictionary } from "lodash"
@@ -53,4 +52,8 @@ export function mapSimpleNodeId(node: NodeInfo) {
 
 export function mapNodeIdWithFileName(node: NodeInfo) {
     return node.file.split("\\").pop() + "." + node.label
+}
+
+export function mapSimpleNodeIdWithLineNumber(node: NodeInfo) {
+    return node.label + "@" + node.start.row
 }

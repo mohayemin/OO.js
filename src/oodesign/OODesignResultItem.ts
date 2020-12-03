@@ -48,6 +48,16 @@ export class OODesignResultItem {
             ") " +
             this.rank;
     }
+
+    public shortFormat() {
+        return formatWithSign(this.score()) +
+        " (" +
+        map(this.normalValues, formatWithSign).join(" ") +
+        ") " +
+        this.rank +
+        " classes: " +
+        this.design.classes.length
+    }
 }
 
 function formatWithSign(value: number) {
