@@ -1,7 +1,7 @@
 import { CallGraph } from "./CallGraph"
 import { EdgeInfo, NodeInfo } from "./cgTypes"
 import { FunctionNode } from "./FunctionNode"
-import { Dictionary } from "lodash"
+import { Dictionary, sortBy } from "lodash"
 import * as JCG from "@persper/js-callgraph"
 
 export class CallGraphBuilder {
@@ -28,7 +28,8 @@ export class CallGraphBuilder {
             source.addCallees(target)
         }
 
-        return new CallGraph(Object.values(this.nodeMap))
+        const nodes = sortBy(Object.values(this.nodeMap), n=>n.id) 
+        return new CallGraph(nodes)
     }
 
     private getOrCreateNode(nodeInfo: NodeInfo): FunctionNode {

@@ -12,7 +12,14 @@ export class OODesignResultItem {
     constructor(
         public design: OOClassDesign,
         public closestPair: OOClassPair,
+        private metrics: OODesignMetric[]
     ) {
+        this.process();
+    }
+
+    private process() {
+        for (const metric of this.metrics)
+            this.setRaw(metric.id, metric.value(this.design))
     }
 
     private _score: number = undefined
@@ -40,23 +47,25 @@ export class OODesignResultItem {
     }
 
     public format() {
-        return this.design.classes.map(c => c.id).join(" ") +
-            " : " +
+        return this.design.classes.map(c => c.id).join(" ") + " : " +
             formatWithSign(this.score()) +
-            " (" +
-            map(this.normalValues, formatWithSign).join(" ") +
-            ") : " +
-            this.rank;
+            " (" + map(this.normalValues, formatWithSign).join(" ") + ") : " +
+            this.rank +
+            (this.rank === 1 ? " *" : "");
     }
 
     public shortFormat() {
         return formatWithSign(this.score()) +
-        " (" +
-        map(this.normalValues, formatWithSign).join(" ") +
-        ") " +
-        this.rank +
-        " classes: " +
-        this.design.classes.length
+            " (" +
+            map(this.normalValues, formatWithSign).join(" ") +
+            ") " +
+            this.rank +
+            " classes: " +
+            this.design.classes.length
+    }
+
+    public getRawValues() {
+        return Object.values(this.rawValues)
     }
 }
 

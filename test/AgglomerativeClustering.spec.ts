@@ -4,6 +4,10 @@ import { AverageCouplingMetric as AverageCouplingMetric } from "../src/oodesign/
 import { AverageCohesionMetric as AverageCohesionMetric } from "../src/oodesign/metrics/CohesionMetric"
 import { CallGraphBuilder } from "../src/cg/CallGraphBuilder"
 import { main } from "../src"
+import { analyzeFile } from "../src/analyzers"
+import { OOClassDesign } from "../src/oodesign/OOClassDesign"
+import { OOClass } from "../src/oodesign/OOClass"
+import { OODesignResultItem } from "../src/oodesign/OODesignResultItem"
 
 describe("agglomaretive clustering", () => {
 
@@ -37,7 +41,28 @@ describe("agglomaretive clustering", () => {
 
 
 describe("", () => {
-    it("xxx", ()=> {
-        main(["sample-input/this-project/code.js"])
+    it("xxx", () => {
+        const {callGraph, result} = analyzeFile("sample-input/this-project/code.js")
+        let design = new OOClassDesign(callGraph.nodes.map(n => new OOClass(n.id, [n])))
+
+        for (let i = 0; i < 8; i++)
+            design = design.merge(0, 1)
+
+        for (let i = 0; i < 7; i++)
+            design = design.merge(1, 2)
+
+        for (let i = 0; i < 6; i++)
+            design = design.merge(2, 3)
+
+        for (let i = 0; i < 10; i++)
+            design = design.merge(3, 4)
+        
+        const expectedResult = new OODesignResultItem(design, null, [
+            new AverageCohesionMetric,
+            new AverageCouplingMetric
+        ])
+
+        console.log(result.topScorer.getRawValues())
+        console.log(expectedResult.getRawValues())
     })
 })
