@@ -7,9 +7,9 @@ import * as JCG from "@persper/js-callgraph"
 
 export class CallGraphBuilder {
     private nodeMap: Dictionary<FunctionNode> = {}
-    constructor(public readonly filepath: string, 
+    constructor(public readonly filepath: string,
         private mapNodeId: mapNodeId = mapSimpleNodeId) {
-            
+
     }
 
     buildCg(): CallGraph {
@@ -21,6 +21,9 @@ export class CallGraphBuilder {
         const edgeInfos: EdgeInfo[] = JCG.build()
 
         edgeInfos.forEach(edgeInfo => {
+            if (edgeInfo.source.file === "Native" || edgeInfo.target.file === "Native")
+                return
+
             const source = this.getOrCreateNode(edgeInfo.source)
             const target = this.getOrCreateNode(edgeInfo.target)
             source.addCallees(target)
@@ -46,4 +49,8 @@ export type mapNodeId = (node: NodeInfo) => string
 
 export function mapSimpleNodeId(node: NodeInfo) {
     return node.label
+}
+
+export function mapNodeIdWithFileName(node: NodeInfo) {
+    return node.file.split("\\").pop() + "." + node.label
 }
