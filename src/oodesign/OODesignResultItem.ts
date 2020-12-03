@@ -41,11 +41,11 @@ export class OODesignResultItem {
 
     public format() {
         return this.design.classes.map(c => c.id).join(" ") +
-            " :: " +
+            " : " +
             formatWithSign(this.score()) +
             " (" +
             map(this.normalValues, formatWithSign).join(" ") +
-            ") " +
+            ") : " +
             this.rank;
     }
 
