@@ -22,7 +22,7 @@ export class CallGraphBuilder {
 
         for (const edgeInfo of edgeInfos) {
             if (edgeInfo.source.file === "Native" || edgeInfo.target.file === "Native")
-                return
+                break
 
             const source = this.getOrCreateNode(edgeInfo.source)
             const target = this.getOrCreateNode(edgeInfo.target)

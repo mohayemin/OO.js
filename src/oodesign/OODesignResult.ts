@@ -1,6 +1,5 @@
 import { sortBy } from "lodash";
 import { OODesignMetric } from "./metrics/OODesignMetric";
-import { Range } from "./metrics/Range";
 import { OODesignResultItem } from "./OODesignResultItem";
 
 export class OODesignResult {
