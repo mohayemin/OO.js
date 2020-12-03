@@ -10,10 +10,11 @@ export class FunctionNode {
     }
 
     addCallees(...callees: FunctionNode[]) {
-        callees.forEach(n => {
+        for (const n of callees) {
             this.callees.push(n)
             n.callers.push(this)
-        })
+        }
+        
         return this
     }
 

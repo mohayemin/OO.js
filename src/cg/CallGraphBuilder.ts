@@ -20,14 +20,14 @@ export class CallGraphBuilder {
         JCG.setFiles([this.filepath])
         const edgeInfos: EdgeInfo[] = JCG.build()
 
-        edgeInfos.forEach(edgeInfo => {
+        for (const edgeInfo of edgeInfos) {
             if (edgeInfo.source.file === "Native" || edgeInfo.target.file === "Native")
                 return
 
             const source = this.getOrCreateNode(edgeInfo.source)
             const target = this.getOrCreateNode(edgeInfo.target)
             source.addCallees(target)
-        })
+        }
 
         return new CallGraph(Object.values(this.nodeMap))
     }

@@ -29,7 +29,9 @@ export class AgglomerativeClustering {
     private findResultForDesign(design: OOClassDesign): OODesignResultItem {
         const closestPair = design.findClosestPair()
         const resultItem = new OODesignResultItem(design, closestPair)
-        this.metrics.forEach(metric => resultItem.setRaw(metric.id, metric.value(design)))
+        for (const metric of this.metrics)
+            resultItem.setRaw(metric.id, metric.value(design))
+
         return resultItem
     }
 }
