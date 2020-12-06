@@ -50,8 +50,7 @@ export class OODesignResultItem {
         return this.design.classes.map(c => c.id).join(" ") + " : " +
             formatWithSign(this.score()) +
             " (" + map(this.normalValues, formatWithSign).join(" ") + ") : " +
-            this.rank +
-            (this.rank === 1 ? " *" : "");
+            this.rank;
     }
 
     public shortFormat() {

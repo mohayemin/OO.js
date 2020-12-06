@@ -3,6 +3,8 @@ import { CallGraphBuilder, mapSimpleNodeId } from "./cg/CallGraphBuilder"
 import { AgglomerativeClustering } from "./oodesign/AgglomerativeClustering"
 import { AverageCohesionMetric } from "./oodesign/metrics/CohesionMetric"
 import { AverageCouplingMetric } from "./oodesign/metrics/CouplingMetric"
+import { basename } from 'path'
+import { writeFileSync } from 'fs'
 
 export function analyzeCallGraph(callGraph: CallGraph) {
     const clustering = new AgglomerativeClustering(callGraph, [
@@ -10,20 +12,6 @@ export function analyzeCallGraph(callGraph: CallGraph) {
         new AverageCouplingMetric
     ])
     const result = clustering.apply()
-    const top = result.topScorer
-
-    console.log(result.format())
-
-    // // for (const res of result.resultItems) {
-    // //     console.log(res.shortFormat())
-    // // }
-
-    // console.log("-------------------")
-    // for (const closestPair of result.resultItems.map(res => res.closestPair)) {
-    //     if (closestPair)
-    //         console.log(closestPair.closeness.toFixed(2), closestPair.first.id, closestPair.second.id)
-    // }
-
     return result
 }
 
@@ -32,6 +20,14 @@ export function analyzeFile(filepath: string) {
     const graphBuilder = new CallGraphBuilder(filepath, mapSimpleNodeId)
     let callGraph = graphBuilder.buildCg()
     const result = analyzeCallGraph(callGraph)
+    const resultString = result.format()
+
+    const filename = basename(filepath, ".js")
+    const outfilePath = `./results/${filename}.csv`
+    writeFileSync(outfilePath, resultString)
+
+    console.log(resultString)
+
     console.log()
     return { callGraph, result }
 }
