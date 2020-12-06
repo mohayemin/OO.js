@@ -4,10 +4,16 @@ import { FunctionNode } from "../cg/FunctionNode";
 export class OOClass {
     allNeighbours: FunctionNode[];
     allCallees: FunctionNode[];
+    public readonly methods: FunctionNode[] = [];
 
     constructor(public id: string,
-        public methods: FunctionNode[]) {
+        methods: FunctionNode[]) {
+        this.addMethods(methods)
+    }
+
+    private addMethods(methods: FunctionNode[]){
         for (const method of methods) {
+            this.methods.push(method)
             method.containerClass = this
         }
         this.buildCache();
@@ -15,8 +21,7 @@ export class OOClass {
 
     mergeWith(other: OOClass): void {
         this.id += "$" + other.id;
-        this.methods.push(...other.methods);
-        this.buildCache();
+        this.addMethods(other.methods)
     }
 
     private buildCache() {

@@ -1,6 +1,4 @@
-import { sortBy } from "lodash"
 import { AverageCouplingMetric, CouplingOfClass } from "../src/oodesign/metrics/CouplingMetric"
-import { OOClass } from "../src/oodesign/OOClass"
 import { abcdefg_2Class, abcdefg_dCallsG } from "./TestData"
 
 describe("coupling", () => {

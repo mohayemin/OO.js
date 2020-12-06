@@ -19,7 +19,7 @@ export class AverageOfClassMetric implements OODesignMetric {
     }
 
     value(design: OOClassDesign): number {
-        return meanBy(design.classes, this.classMetric.value)
+        return meanBy(design.classes, c => this.classMetric.value(c))
     }
 }
 

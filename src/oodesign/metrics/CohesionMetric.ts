@@ -1,4 +1,4 @@
-import { intersection, sumBy } from "lodash";
+import { countBy, filter, intersection, sumBy } from "lodash";
 import { OOClass } from "../OOClass";
 import { AverageOfClassMetric, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
@@ -12,10 +12,6 @@ export class AverageCohesionMetric extends AverageOfClassMetric {
             zeroToOneValueRangeAlgorithm
         )
     }
-
-    possibleValueRange() {
-        return new Range(0, 1)
-    }
 }
 
 export class CohesionOfClassMetric implements OOClassMetric {
@@ -25,7 +21,8 @@ export class CohesionOfClassMetric implements OOClassMetric {
         if (functions == 1)
             return 1;
 
-        const inClassCalls = intersection(ooClass.allCallees, ooClass.methods).length;
+
+        const inClassCalls = filter(ooClass.allCallees, calee => calee.containerClass == ooClass).length
         const possibleRelations = functions * (functions - 1) / 2;
 
         return inClassCalls / possibleRelations;
