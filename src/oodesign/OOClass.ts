@@ -7,6 +7,9 @@ export class OOClass {
 
     constructor(public id: string,
         public methods: FunctionNode[]) {
+        for (const method of methods) {
+            method.containerClass = this
+        }
         this.buildCache();
     }
 
