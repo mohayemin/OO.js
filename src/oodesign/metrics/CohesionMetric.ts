@@ -1,4 +1,6 @@
 import { countBy, filter, intersection, sumBy } from "lodash";
+import { FunctionNode } from "../../cg/FunctionNode";
+import { PairSet } from "../../util/pairing";
 import { OOClass } from "../OOClass";
 import { AverageOfClassMetric, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
@@ -21,8 +23,14 @@ export class CohesionOfClassMetric implements OOClassMetric {
         if (functions == 1)
             return 1;
 
-
-        const inClassCalls = filter(ooClass.allCallees, calee => calee.containerClass == ooClass).length
+        const inEdges = new PairSet<FunctionNode>()
+        for (const method of ooClass.methods) {
+            const inCalls = method.callees.filter(callee => callee.containerClass == ooClass)
+            for (const callee of inCalls) {
+                inEdges.add({ first: method, second: callee })
+            }
+        }
+        const inClassCalls =  inEdges.size();
         const possibleRelations = functions * (functions - 1) / 2;
 
         return inClassCalls / possibleRelations;

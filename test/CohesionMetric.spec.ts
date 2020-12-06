@@ -1,4 +1,6 @@
+import { FunctionNode } from "../src/cg/FunctionNode"
 import { AverageCohesionMetric, CohesionOfClassMetric } from "../src/oodesign/metrics/CohesionMetric"
+import { OOClass } from "../src/oodesign/OOClass"
 import { OOClassDesign } from "../src/oodesign/OOClassDesign"
 import { abcdefg_2Class, abcdefg_dCallsG } from "./TestData"
 
@@ -16,6 +18,15 @@ describe("cohession", () => {
             expect(cohesion(class1)).toBeCloseTo(5 / 6)
             expect(cohesion(class2)).toBeCloseTo(1)
             expect(cohesion(class3)).toBeCloseTo(1)
+        })
+
+        it("3", () => {
+            const a = new FunctionNode("a", null)
+            const b = new FunctionNode("b", null)
+            a.addCallees(b)
+            b.addCallees(a)
+            const cls = new OOClass("1", [a, b])
+            expect(cohesion(cls)).toBe(1)
         })
     })
 
