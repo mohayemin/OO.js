@@ -37,4 +37,8 @@ export class OODesignResult {
     format() {
         return this.resultItems.map(ri => ri.format()).join("\n");
     }
+
+    toJSON() {
+        return this.resultItems.map(ri => ri.toJSON())
+    }
 }

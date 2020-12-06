@@ -5,6 +5,8 @@ import { AverageCohesionMetric } from "./oodesign/metrics/CohesionMetric"
 import { AverageCouplingMetric } from "./oodesign/metrics/CouplingMetric"
 import { basename } from 'path'
 import { writeFileSync } from 'fs'
+import { Parser } from 'json2csv'
+import { OODesignResult } from "./oodesign/OODesignResult"
 
 export function analyzeCallGraph(callGraph: CallGraph) {
     const clustering = new AgglomerativeClustering(callGraph, [
@@ -17,17 +19,25 @@ export function analyzeCallGraph(callGraph: CallGraph) {
 
 export function analyzeFile(filepath: string) {
     console.log("Analyzing " + filepath)
+
     const graphBuilder = new CallGraphBuilder(filepath, mapSimpleNodeId)
     let callGraph = graphBuilder.buildCg()
     const result = analyzeCallGraph(callGraph)
-    const resultString = result.format()
-
     const filename = basename(filepath, ".js")
-    const outfilePath = `./results/${filename}.csv`
-    writeFileSync(outfilePath, resultString)
-
-    console.log(resultString)
+    logResults(result, filename)
 
     console.log()
     return { callGraph, result }
+}
+
+function logResults(result: OODesignResult, filename: string) {
+    const outfilePath = `./results/${filename}.csv`
+    const csvParser = new Parser({
+        header: true
+    })
+    const csv = csvParser.parse(result.toJSON())
+    writeFileSync(outfilePath, csv)
+
+    console.log(result.format())
+
 }

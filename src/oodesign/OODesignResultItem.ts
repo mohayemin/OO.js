@@ -63,6 +63,20 @@ export class OODesignResultItem {
             this.design.classes.length
     }
 
+    toJSON() {
+        const json: any = {
+            design: this.design.classes.map(c => c.id).join(" "),
+            score: this.score(),
+            rank: this.rank
+        }
+
+        for (const metric of this.metrics) {
+            json[metric.id] = this.getNormal(metric.id)
+        }
+
+        return json
+    }
+
     public getRawValues() {
         return Object.values(this.rawValues)
     }
