@@ -1,4 +1,9 @@
 {
     "jasmineExplorer.config": "jasmine.json",
-    "jasmineExplorer.nodeArgv": ["-r", "ts-node/register"]
+    "jasmineExplorer.nodeArgv": [
+        "-r",
+        "ts-node/register"
+    ],
+    "plantuml.diagramsRoot": "docs/diagrams/src",
+    "plantuml.exportOutDir": "docs/diagrams/out"
 }
