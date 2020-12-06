@@ -1,17 +1,15 @@
-import { countBy, filter, intersection, sumBy } from "lodash";
 import { FunctionNode } from "../../cg/FunctionNode";
 import { PairSet } from "../../util/pairing";
 import { OOClass } from "../OOClass";
-import { AverageOfClassMetric, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
+import { AverageOfClassMetric, fromValuesValueRangeAlgorithm, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
-import { Range } from "./Range";
 
 export class AverageCohesionMetric extends AverageOfClassMetric {
     constructor() {
         super("average-cohession",
             1,
             new CohesionOfClassMetric,
-            zeroToOneValueRangeAlgorithm
+            fromValuesValueRangeAlgorithm
         )
     }
 }
