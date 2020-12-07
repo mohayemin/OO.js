@@ -44,7 +44,7 @@ export class Analyzer {
     }
 
     logResults(result: OODesignResult, inputFilePath: string) {
-        const inFileName = basename(inputFilePath, ".js")
+        const inFileName = basename(inputFilePath)
         const outfilePath = `${this.config.outputDirectory}/${inFileName}_${this.config.info.closenessMetric}_${this.config.info.cohesionRangeAlgorithm}.csv`
         const csvParser = new Parser({
             header: true
