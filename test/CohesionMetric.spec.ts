@@ -8,13 +8,13 @@ describe("cohession", () => {
     describe("of class", () => {
         const cohesion = new CohesionOfClassMetric().value
         it("1", () => {
-            const { class1, class2 } = abcdefg_2Class;
+            const { class1, class2 } = abcdefg_2Class();
             expect(cohesion(class1)).toBeCloseTo(5 / 6)
             expect(cohesion(class2)).toBeCloseTo(1)
         })
 
         it("2", () => {
-            const { class1, class2, class3 } = abcdefg_dCallsG
+            const { class1, class2, class3 } = abcdefg_dCallsG()
             expect(cohesion(class1)).toBeCloseTo(5 / 6)
             expect(cohesion(class2)).toBeCloseTo(1)
             expect(cohesion(class3)).toBeCloseTo(1)
@@ -36,11 +36,11 @@ describe("cohession", () => {
         }
         it("1", () => {
             // (5/6 + 1)/2
-            expect(cohesion(abcdefg_2Class.bestDesign)).toBeCloseTo((5 / 6 + 1) / 2)
+            expect(cohesion(abcdefg_2Class().bestDesign)).toBeCloseTo((5 / 6 + 1) / 2)
         })
 
         it("2", () => {
-            expect(cohesion(abcdefg_dCallsG.bestDesign)).toBeCloseTo((5 / 6 + 1 + 1) / 3)
+            expect(cohesion(abcdefg_dCallsG().bestDesign)).toBeCloseTo((5 / 6 + 1 + 1) / 3)
         })
     })
 })
