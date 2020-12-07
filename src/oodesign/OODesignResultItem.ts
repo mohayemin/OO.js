@@ -1,8 +1,8 @@
 import { Dictionary, map, sum } from "lodash";
+import { ClassPair } from "./ClassPair";
 import { OODesignMetric } from "./metrics/OODesignMetric";
 import { Range } from "./metrics/Range";
 import { OOClassDesign as OOClassDesign } from "./OOClassDesign";
-import { OOClassPair } from "./OOClassPair";
 
 export class OODesignResultItem {
     private rawValues: Dictionary<number> = {}
@@ -11,7 +11,7 @@ export class OODesignResultItem {
 
     constructor(
         public design: OOClassDesign,
-        public closestPair: OOClassPair,
+        public closestPair: ClassPair,
         private metrics: OODesignMetric[]
     ) {
         this.process();

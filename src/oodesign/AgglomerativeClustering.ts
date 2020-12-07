@@ -1,6 +1,8 @@
 import { maxBy } from "lodash"
 import { CallGraph } from "../cg/CallGraph"
-import { FunctionNode } from "../cg/FunctionNode"
+import { createPairs } from "../util/pairing"
+import { ClassPair } from "./ClassPair"
+import { ClassClosenessMetric } from "./metrics/ClassClosenessMetric"
 import { OODesignMetric } from "./metrics/OODesignMetric"
 import { OOClass } from "./OOClass"
 import { OOClassDesign as OOClassDesign } from "./OOClassDesign"
@@ -9,6 +11,7 @@ import { OODesignResultItem } from "./OODesignResultItem"
 
 export class AgglomerativeClustering {
     constructor(private graph: CallGraph
+        , private classClosenessMetric: ClassClosenessMetric
         , private metrics: OODesignMetric[]
     ) {
     }
@@ -27,9 +30,15 @@ export class AgglomerativeClustering {
     }
 
     private findResultForDesign(design: OOClassDesign): OODesignResultItem {
-        const closestPair = design.findClosestPair()
+        const pairs =  createPairs(design.classes)
+            .map(p => new ClassPair(p.firstIndex, p.secondIndex, p.first, p.second, this.classClosenessMetric))
+
+        let closestPair = maxBy(pairs, p => p.closeness)
+
         return new OODesignResultItem(design, closestPair, this.metrics)
     }
+
+
 }
 
 

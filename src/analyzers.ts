@@ -7,12 +7,15 @@ import { basename } from 'path'
 import { writeFileSync, lstatSync } from 'fs'
 import { Parser } from 'json2csv'
 import { OODesignResult } from "./oodesign/OODesignResult"
+import { ClassNeighbourhoodClassClosenessMetric } from "./oodesign/metrics/ClassClosenessMetric"
 
 export function analyzeCallGraph(callGraph: CallGraph) {
-    const clustering = new AgglomerativeClustering(callGraph, [
-        new AverageCohesionMetric,
-        new AverageCouplingMetric
-    ])
+    const clustering = new AgglomerativeClustering(callGraph,
+        new ClassNeighbourhoodClassClosenessMetric(),
+        [
+            new AverageCohesionMetric,
+            new AverageCouplingMetric
+        ])
     const result = clustering.apply()
     return result
 }
@@ -43,9 +46,9 @@ function logResults(result: OODesignResult, filename: string) {
 }
 
 function getNodeIdMapper(path: string) {
-    if (lstatSync(path).isDirectory()) 
+    if (lstatSync(path).isDirectory())
         return mapNodeIdWithFileName
 
     return mapSimpleNodeId
-    
+
 }
