@@ -2,9 +2,17 @@
     "closenessMetric": null,
     "cohesionRangeAlgorithm": null,
     "files": [
-        "./experiment/input/abcdefg_2-class.js",
-        "./experiment/input/abcdefg_d-calls-g.js",
-        "./experiment/input/circular.js"
+        "./experiment/input/abcdefg-joint.js",
+        "./experiment/input/abcdefg-disjoint.js",
+        "./experiment/input/circular.js",
+        "./experiment/input/json2Csv",
+        "./experiment/input/json2Csv/json2csv.js",
+        "./experiment/input/json2Csv/JSON2CSVAsyncParser.js",
+        "./experiment/input/json2Csv/JSON2CSVBase.js",
+        "./experiment/input/json2Csv/JSON2CSVParser.js",
+        "./experiment/input/json2Csv/JSON2CSVTransform.js",
+        "./experiment/input/json2Csv/utils.js",
+        "./experiment/input/json2Csv/transforms"
     ],
     "outputDirectory": "./experiment/output"
 }

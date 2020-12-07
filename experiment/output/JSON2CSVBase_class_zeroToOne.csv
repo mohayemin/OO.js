@@ -1,0 +1,10 @@
+"design","score","rank","average-cohession","average-coupling"
+"constructor_ getHeader preprocessFieldsInfo preprocessOpts preprocessRow processCell processRow processValue value",0,8,1,-1
+"constructor_$preprocessOpts getHeader preprocessFieldsInfo preprocessRow processCell processRow processValue value",0.25,6,1,-0.75
+"constructor_$preprocessOpts getHeader preprocessFieldsInfo preprocessRow processCell$processValue processRow value",0.5714285714285714,5,1,-0.42857142857142855
+"constructor_$preprocessOpts getHeader preprocessFieldsInfo preprocessRow processCell$processValue$value processRow",1,1,1,0
+"constructor_$preprocessOpts$getHeader preprocessFieldsInfo preprocessRow processCell$processValue$value processRow",0.8666666666666666,2,0.8666666666666666,0
+"constructor_$preprocessOpts$getHeader$preprocessFieldsInfo preprocessRow processCell$processValue$value processRow",0.7916666666666667,3,0.7916666666666667,0
+"constructor_$preprocessOpts$getHeader$preprocessFieldsInfo$preprocessRow processCell$processValue$value processRow",0.7000000000000001,4,0.7000000000000001,0
+"constructor_$preprocessOpts$getHeader$preprocessFieldsInfo$preprocessRow$processCell$processValue$value processRow",0.5714285714285714,5,0.5714285714285714,0
+"constructor_$preprocessOpts$getHeader$preprocessFieldsInfo$preprocessRow$processCell$processValue$value$processRow",0.1111111111111111,7,0.1111111111111111,0

@@ -1,0 +1,11 @@
+"design","score","rank","average-cohession","average-coupling"
+"_flush _transform constructor_ getPendingData initJSONParser initNDJSONParse initObjectModeParse pushHeader pushLine write",0,10,1,-1
+"_flush$getPendingData _transform constructor_ initJSONParser initNDJSONParse initObjectModeParse pushHeader pushLine write",0.02777777777777779,9,1,-0.9722222222222222
+"_flush$getPendingData _transform$write constructor_ initJSONParser initNDJSONParse initObjectModeParse pushHeader pushLine",0.0625,7,1,-0.9375
+"_flush$getPendingData _transform$write$pushLine constructor_ initJSONParser initNDJSONParse initObjectModeParse pushHeader",0.059523809523809534,8,0.9523809523809523,-0.8928571428571428
+"_flush$getPendingData _transform$write$pushLine$pushHeader constructor_ initJSONParser initNDJSONParse initObjectModeParse",0.08333333333333337,6,0.9166666666666666,-0.8333333333333333
+"_flush$getPendingData _transform$write$pushLine$pushHeader$constructor_ initJSONParser initNDJSONParse initObjectModeParse",0.13000000000000023,5,0.8800000000000001,-0.7499999999999999
+"_flush$getPendingData _transform$write$pushLine$pushHeader$constructor_$initJSONParser initNDJSONParse initObjectModeParse",0.20833333333333326,3,0.8333333333333333,-0.625
+"_flush$getPendingData _transform$write$pushLine$pushHeader$constructor_$initJSONParser$initNDJSONParse initObjectModeParse",0.34523809523809523,2,0.7619047619047619,-0.41666666666666663
+"_flush$getPendingData _transform$write$pushLine$pushHeader$constructor_$initJSONParser$initNDJSONParse$initObjectModeParse",0.625,1,0.625,0
+"_flush$getPendingData$_transform$write$pushLine$pushHeader$constructor_$initJSONParser$initNDJSONParse$initObjectModeParse",0.17777777777777778,4,0.17777777777777778,0

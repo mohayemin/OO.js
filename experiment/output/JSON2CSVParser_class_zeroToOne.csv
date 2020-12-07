@@ -1,0 +1,4 @@
+"design","score","rank","average-cohession","average-coupling"
+"parse preprocessData processData",0,3,1,-1
+"parse$preprocessData processData",0.25,2,1,-0.75
+"parse$preprocessData$processData",0.6666666666666666,1,0.6666666666666666,0
