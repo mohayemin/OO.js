@@ -13,7 +13,7 @@ export class AnalysisConfig {
             new MethodNeighbourhoodClassClosenessMetric :
             new ClassNeighbourhoodClassClosenessMetric;
 
-        this.cohesionRangeAlgorithm = info.cohesionRangeAlgorithm === "fromvalues" ?
+        this.cohesionRangeAlgorithm = info.cohesionRangeAlgorithm === "fromValues" ?
             fromValuesValueRangeAlgorithm :
             zeroToOneValueRangeAlgorithm;
 
@@ -23,6 +23,6 @@ export class AnalysisConfig {
 
 export interface AnalysisConfigInfo {
     files: string[]
-    cohesionRangeAlgorithm?: string
-    closenessMetric?: string
+    cohesionRangeAlgorithm?: "fromValues" | "zeroToOne"
+    closenessMetric?: "class" | "method"
 }
