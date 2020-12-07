@@ -1,5 +1,0 @@
-"design","score","rank","average-cohession","average-coupling"
-"a b c d",0,1,1,-1
-"a$b c d",0,1,1,-1
-"a$b$c d",-0.5000000000000002,2,0.49999999999999983,-1
-"a$b$c$d",0,1,0,0

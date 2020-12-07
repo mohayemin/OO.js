@@ -1,15 +1,15 @@
 import { FunctionNode } from "../../cg/FunctionNode";
 import { PairSet } from "../../util/pairing";
 import { OOClass } from "../OOClass";
-import { AverageOfClassMetric, fromValuesValueRangeAlgorithm, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
+import { AverageOfClassMetric, fromValuesValueRangeAlgorithm, valueRangeAlgorithm, zeroToOneValueRangeAlgorithm } from "./AverageOfClassMetric";
 import { OOClassMetric } from "./OOClassMetric";
 
 export class AverageCohesionMetric extends AverageOfClassMetric {
-    constructor() {
+    constructor(valueRangeAlgorithm: valueRangeAlgorithm) {
         super("average-cohession",
             1,
             new CohesionOfClassMetric,
-            fromValuesValueRangeAlgorithm
+            valueRangeAlgorithm
         )
     }
 }

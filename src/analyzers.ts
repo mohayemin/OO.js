@@ -8,41 +8,53 @@ import { writeFileSync, lstatSync } from 'fs'
 import { Parser } from 'json2csv'
 import { OODesignResult } from "./oodesign/OODesignResult"
 import { ClassNeighbourhoodClassClosenessMetric } from "./oodesign/metrics/ClassClosenessMetric"
+import { AnalysisConfig } from "./AnalysisConfig"
 
-export function analyzeCallGraph(callGraph: CallGraph) {
-    const clustering = new AgglomerativeClustering(callGraph,
-        new ClassNeighbourhoodClassClosenessMetric(),
-        [
-            new AverageCohesionMetric,
-            new AverageCouplingMetric
-        ])
-    const result = clustering.apply()
-    return result
-}
+export class Analyzer {
+    constructor(private config: AnalysisConfig) {
+    }
 
-export function analyzeFile(filepath: string) {
-    console.log("Analyzing " + filepath)
+    analyze() {
+        for (const filepath of this.config.filepaths) {
+            this.analyzeFile(filepath)
+        }
+    }
 
-    const graphBuilder = new CallGraphBuilder(filepath, getNodeIdMapper(filepath))
-    let callGraph = graphBuilder.buildCg()
-    const result = analyzeCallGraph(callGraph)
-    const filename = basename(filepath, ".js")
-    logResults(result, filename)
+    analyzeCallGraph(callGraph: CallGraph) {
+        const clustering = new AgglomerativeClustering(callGraph,
+            this.config.classClosenessMetric,
+            [
+                new AverageCohesionMetric(this.config.cohesionRangeAlgorithm),
+                new AverageCouplingMetric
+            ])
+        const result = clustering.apply()
+        return result
+    }
 
-    console.log()
-    return { callGraph, result }
-}
+    analyzeFile(filepath: string) {
+        console.log("Analyzing " + filepath)
+    
+        const graphBuilder = new CallGraphBuilder(filepath, getNodeIdMapper(filepath))
+        let callGraph = graphBuilder.buildCg()
+        const result = this.analyzeCallGraph(callGraph)
+        const filename = basename(filepath, ".js")
+        this.logResults(result, filename)
+    
+        console.log()
+        return { callGraph, result }
+    }
 
-function logResults(result: OODesignResult, filename: string) {
-    const outfilePath = `./results/${filename}.csv`
-    const csvParser = new Parser({
-        header: true
-    })
-    const csv = csvParser.parse(result.toJSON())
-    writeFileSync(outfilePath, csv)
-
-    console.log(result.format())
-
+    logResults(result: OODesignResult, filename: string) {
+        const outfilePath = `./results/${filename}_${this.config.info.closenessMetric}_${this.config.info.cohesionRangeAlgorithm}.csv`
+        const csvParser = new Parser({
+            header: true
+        })
+        const csv = csvParser.parse(result.toJSON())
+        writeFileSync(outfilePath, csv)
+    
+        console.log(result.format())
+    
+    }
 }
 
 function getNodeIdMapper(path: string) {

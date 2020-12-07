@@ -1,20 +1,21 @@
-import { analyzeFile } from "./analyzers"
+import { Analyzer } from "./analyzers"
 import { readFileSync } from 'fs'
+import { AnalysisConfig } from "./AnalysisConfig"
 
 export function main(args: string[]) {
-    let filepaths: string[]
+    let analysisConfig: AnalysisConfig
+
     if (args.length === 0) {
-        filepaths = readFileSync("./input.txt", "utf8")
-            .split("\n")
-            .filter(fp => fp !== '')
-            .map(fp => fp.trim())
+        const config = JSON.parse(readFileSync("./input.json", "utf8"))
+        analysisConfig = new AnalysisConfig(config)
     } else {
-        filepaths = args
+        analysisConfig = new AnalysisConfig({
+            files: args
+        })
     }
-    console.log(filepaths)
-    for (const filepath of filepaths) {
-        analyzeFile(filepath)
-    }
+    console.log(analysisConfig)
+    
+    new Analyzer(analysisConfig).analyze()
 }
 
 main(process.argv.slice(2))

@@ -1,4 +1,0 @@
-./sample-input/abcdefg_2-class.js
-./sample-input/abcdefg_d-calls-g.js
-./sample-input/circular.js
-./sample-input/this-project/code.js
