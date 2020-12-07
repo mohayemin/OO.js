@@ -11,7 +11,7 @@ export class AnalysisConfig {
     constructor(public info: AnalysisConfigInfo) {
         info.closenessMetric = info.closenessMetric || "class"
         info.cohesionRangeAlgorithm = info.cohesionRangeAlgorithm || "zeroToOne"
-        
+
         this.classClosenessMetric = info.closenessMetric === "method" ?
             new MethodNeighbourhoodClassClosenessMetric :
             new ClassNeighbourhoodClassClosenessMetric
@@ -29,5 +29,5 @@ export interface AnalysisConfigInfo {
     files: string[]
     cohesionRangeAlgorithm?: "fromValues" | "zeroToOne"
     closenessMetric?: "class" | "method",
-    outputDirectory: ""
+    outputDirectory?: ""
 }

@@ -44,6 +44,11 @@ export class Analyzer {
     }
 
     logResults(result: OODesignResult, inputFilePath: string) {
+        console.log(result.format())
+
+        if(!this.config.outputDirectory)
+            return
+
         const inFileName = basename(inputFilePath)
         const outfilePath = `${this.config.outputDirectory}/${inFileName}_${this.config.info.closenessMetric}_${this.config.info.cohesionRangeAlgorithm}.csv`
         const csvParser = new Parser({
@@ -51,8 +56,6 @@ export class Analyzer {
         })
         const csv = csvParser.parse(result.toJSON())
         writeFileSync(outfilePath, csv)
-    
-        console.log(result.format())
     
     }
 }

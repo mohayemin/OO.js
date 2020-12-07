@@ -6,13 +6,12 @@
         "./experiment/input/abcdefg-disjoint.js",
         "./experiment/input/circular.js",
         "./experiment/input/json2Csv",
-        "./experiment/input/json2Csv/json2csv.js",
-        "./experiment/input/json2Csv/JSON2CSVAsyncParser.js",
         "./experiment/input/json2Csv/JSON2CSVBase.js",
         "./experiment/input/json2Csv/JSON2CSVParser.js",
         "./experiment/input/json2Csv/JSON2CSVTransform.js",
         "./experiment/input/json2Csv/utils.js",
-        "./experiment/input/json2Csv/transforms"
+        "./experiment/input/json2Csv/transforms",
+        "./experiment/input/this-project/code.js"
     ],
     "outputDirectory": "./experiment/output"
 }

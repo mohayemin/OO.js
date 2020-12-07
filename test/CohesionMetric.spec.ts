@@ -1,4 +1,5 @@
 import { FunctionNode } from "../src/cg/FunctionNode"
+import { zeroToOneValueRangeAlgorithm } from "../src/oodesign/metrics/AverageOfClassMetric"
 import { AverageCohesionMetric, CohesionOfClassMetric } from "../src/oodesign/metrics/CohesionMetric"
 import { OOClass } from "../src/oodesign/OOClass"
 import { OOClassDesign } from "../src/oodesign/OOClassDesign"
@@ -32,7 +33,7 @@ describe("cohession", () => {
 
     describe("of design", () => {
         function cohesion(design: OOClassDesign) {
-            return new AverageCohesionMetric().value(design)
+            return new AverageCohesionMetric(zeroToOneValueRangeAlgorithm).value(design)
         }
         it("1", () => {
             // (5/6 + 1)/2
