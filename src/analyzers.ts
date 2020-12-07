@@ -37,15 +37,15 @@ export class Analyzer {
         const graphBuilder = new CallGraphBuilder(filepath, getNodeIdMapper(filepath))
         let callGraph = graphBuilder.buildCg()
         const result = this.analyzeCallGraph(callGraph)
-        const filename = basename(filepath, ".js")
-        this.logResults(result, filename)
+        this.logResults(result, filepath)
     
         console.log()
         return { callGraph, result }
     }
 
-    logResults(result: OODesignResult, filename: string) {
-        const outfilePath = `./results/${filename}_${this.config.info.closenessMetric}_${this.config.info.cohesionRangeAlgorithm}.csv`
+    logResults(result: OODesignResult, inputFilePath: string) {
+        const inFileName = basename(inputFilePath, ".js")
+        const outfilePath = `${this.config.outputDirectory}/${inFileName}_${this.config.info.closenessMetric}_${this.config.info.cohesionRangeAlgorithm}.csv`
         const csvParser = new Parser({
             header: true
         })

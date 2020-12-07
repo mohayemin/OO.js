@@ -3,26 +3,31 @@ import { fromValuesValueRangeAlgorithm, valueRangeAlgorithm, zeroToOneValueRange
 
 
 export class AnalysisConfig {
-    public readonly classClosenessMetric: ClassClosenessMetric;
-    public readonly cohesionRangeAlgorithm: valueRangeAlgorithm;
+    public readonly classClosenessMetric: ClassClosenessMetric
+    public readonly cohesionRangeAlgorithm: valueRangeAlgorithm
     public readonly filepaths: string[]
+    public readonly outputDirectory: string
+
     constructor(public info: AnalysisConfigInfo) {
         info.closenessMetric = info.closenessMetric || "class"
         info.cohesionRangeAlgorithm = info.cohesionRangeAlgorithm || "zeroToOne"
+        
         this.classClosenessMetric = info.closenessMetric === "method" ?
             new MethodNeighbourhoodClassClosenessMetric :
-            new ClassNeighbourhoodClassClosenessMetric;
+            new ClassNeighbourhoodClassClosenessMetric
 
         this.cohesionRangeAlgorithm = info.cohesionRangeAlgorithm === "fromValues" ?
             fromValuesValueRangeAlgorithm :
-            zeroToOneValueRangeAlgorithm;
+            zeroToOneValueRangeAlgorithm
 
-        this.filepaths = info.files;
+        this.filepaths = info.files
+        this.outputDirectory = info.outputDirectory
     }
 }
 
 export interface AnalysisConfigInfo {
     files: string[]
     cohesionRangeAlgorithm?: "fromValues" | "zeroToOne"
-    closenessMetric?: "class" | "method"
+    closenessMetric?: "class" | "method",
+    outputDirectory: ""
 }
