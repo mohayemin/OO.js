@@ -1,10 +1,10 @@
 import { CallGraph } from "./cg/CallGraph"
-import { CallGraphBuilder, mapSimpleNodeId } from "./cg/CallGraphBuilder"
+import { CallGraphBuilder, mapNodeIdWithFileName, mapSimpleNodeId } from "./cg/CallGraphBuilder"
 import { AgglomerativeClustering } from "./oodesign/AgglomerativeClustering"
 import { AverageCohesionMetric } from "./oodesign/metrics/CohesionMetric"
 import { AverageCouplingMetric } from "./oodesign/metrics/CouplingMetric"
 import { basename } from 'path'
-import { writeFileSync } from 'fs'
+import { writeFileSync, lstatSync } from 'fs'
 import { Parser } from 'json2csv'
 import { OODesignResult } from "./oodesign/OODesignResult"
 
@@ -20,7 +20,7 @@ export function analyzeCallGraph(callGraph: CallGraph) {
 export function analyzeFile(filepath: string) {
     console.log("Analyzing " + filepath)
 
-    const graphBuilder = new CallGraphBuilder(filepath, mapSimpleNodeId)
+    const graphBuilder = new CallGraphBuilder(filepath, getNodeIdMapper(filepath))
     let callGraph = graphBuilder.buildCg()
     const result = analyzeCallGraph(callGraph)
     const filename = basename(filepath, ".js")
@@ -40,4 +40,12 @@ function logResults(result: OODesignResult, filename: string) {
 
     console.log(result.format())
 
+}
+
+function getNodeIdMapper(path: string) {
+    if (lstatSync(path).isDirectory()) 
+        return mapNodeIdWithFileName
+
+    return mapSimpleNodeId
+    
 }
