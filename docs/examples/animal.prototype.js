@@ -1,13 +1,17 @@
-function Animal(name, energy) {
+// Animal constructor   
+function Animal(name, energy) { 
+     
     this.name = name
     this.energy = energy
 }
 
-Animal.prototype.eat = function (amount) {
+// Member function of Animal
+Animal.prototype.eat = function (amount) { 
     console.log(`${this.name} is eating.`)
     this.energy += amount
 }
 
+// Another member function of Animal
 Animal.prototype.play = function (length) {
     console.log(`${this.name} is playing.`)
     this.energy -= length
@@ -16,15 +20,19 @@ Animal.prototype.play = function (length) {
 Animal.prototype.talk = function () {
 }
 
+// Cat constructor
 function Cat(name, energy) {
-    Animal.call(this, name, energy)
+    // Equivalent to Java's super call
+    Animal.call(this, name, energy) 
 }
 
-Cat.prototype = Object.create(Animal.prototype)
+// Cat inherits Animal
+Cat.prototype = Object.create(Animal.prototype) 
 
-Cat.prototype.talk = function () {
+// Override talk
+Cat.prototype.talk = function () { 
     console.log('meow')
 }
 
 new Cat("kitty", 100).talk()
-// meow
+// prints "meow"

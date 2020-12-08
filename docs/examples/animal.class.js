@@ -25,4 +25,4 @@ class Cat extends Animal {
 }
 
 new Cat("kitty", 100).talk()
-// meow
+// prints "meow"
