@@ -16,12 +16,12 @@ function D() {
     G();
 }
 
-function e() {
-    f();
+function E() {
+    F();
     G();
 }
 
-function f() {
+function F() {
     G()
 }
 
